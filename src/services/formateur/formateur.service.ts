@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Formateur } from '../../models/Formateur'; // crée un model Formateur correspondant à ton backend
+
+
 
 @Injectable({
   providedIn: 'root'
