@@ -15,9 +15,10 @@ export class FormateurService {
   constructor(private http: HttpClient) { }
 
   // Créer un formateur
-  create(formateur: Formateur): Observable<Formateur> {
-    return this.http.post<Formateur>(this.apiUrl, formateur);
+  create(formData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, formData);
   }
+
 
   // Récupérer tous les formateurs
   getAll(): Observable<Formateur[]> {

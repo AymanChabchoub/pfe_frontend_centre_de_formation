@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Client } from '../../models/Client'; // crée un model Formateur correspondant à ton backend
+import { Client } from '../../models/Client'; // crée un model Client correspondant à ton backend
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,9 @@ private apiUrl = 'http://localhost:8080/api/clients';
   constructor(private http: HttpClient) { }
 
   // Créer un client
-  create(client: Client): Observable<Client> {
-    return this.http.post<Client>(this.apiUrl, client);
+  create(formData: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, formData);
   }
-
   // Récupérer tous les clients
   getAll(): Observable<Client[]> {
     return this.http.get<Client[]>(this.apiUrl);

@@ -1,57 +1,74 @@
-<body>
-    <div class="container-fluid position-relative d-flex p-0">
+<div class="container-fluid position-relative d-flex p-0">
 
+    <div class="container-fluid">
+        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
 
-
-        <!-- Sign Up Start -->
-        <div class="container-fluid">
-            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
-                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                    <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <a href="index.html" class="">
-                                <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
-                            </a>
-                            <h3>Sign Up</h3>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingText" placeholder="jhondoe">
-                            <label for="floatingText">Username</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-4">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                            <label for="floatingPassword">Password</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                                <select class="form-select" id="floatingSelect"
-                                    aria-label="Floating label select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                                <label for="floatingSelect">Works with selects</label>
-                        </div>
-                        <div class="mb-3">
-                                <label for="formFile" class="form-label">Default file input example</label>
-                                <input class="form-control bg-dark" type="file" id="formFile">
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-
-                            <a href="">Forgot Password</a>
-                        </div>
-                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
-                        <p class="text-center mb-0">Already have an Account? <a href="">Sign In</a></p>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>Register</h3>
                     </div>
+
+                    <!-- NOM -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="nom" [(ngModel)]="user.nom" name="nom">
+                        <label for="nom">Nom</label>
+                    </div>
+
+                    <!-- PRENOM -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="prenom" [(ngModel)]="user.prenom" name="prenom">
+                        <label for="prenom">Prénom</label>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email">
+                        <label for="email">Email</label>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password">
+                        <label for="password">Mot de passe</label>
+                    </div>
+
+                    <!-- TELEPHONE -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="telephone" [(ngModel)]="user.telephone" name="telephone">
+                        <label for="telephone">Téléphone</label>
+                    </div>
+
+                    <!-- ROLE -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="roleSelect" [(ngModel)]="user.role" name="role">
+                            <option value="" disabled selected>Choisir un rôle</option>
+                            <option value="CLIENT">Client</option>
+                            <option value="FORMATEUR">Formateur</option>
+                        </select>
+                        <label for="roleSelect">Rôle</label>
+                    </div>
+
+                    <!-- ADRESSE (Client uniquement) -->
+                    <div class="form-floating mb-3" *ngIf="user.role === 'CLIENT'">
+                        <input type="text" class="form-control" id="adresse" [(ngModel)]="user.adresse" name="adresse">
+                        <label for="adresse">Adresse</label>
+                    </div>
+
+                    <!-- CV (Formateur uniquement) -->
+                    <div class="mb-3" *ngIf="user.role === 'FORMATEUR'">
+                        <label for="cvPath" class="form-label">Importer votre CV (PDF)</label>
+                        <input class="form-control bg-dark" type="file" id="cvPath" (change)="onCvSelected($event)" accept="application/pdf">
+                    </div>
+
+                    <button class="btn btn-primary py-3 w-100 mb-4" (click)="register()">
+                        Sign Up
+                    </button>
+
+                    <p class="text-center mb-0">Already have an Account? <a routerLink="/login">Sign In</a></p>
+
                 </div>
             </div>
         </div>
-        <!-- Sign Up End -->
     </div>
-
-
-</body>
+</div>
