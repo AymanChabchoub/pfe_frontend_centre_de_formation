@@ -20,6 +20,7 @@ export class FormateurService {
   }
 
 
+
   // Récupérer tous les formateurs
   getAll(): Observable<Formateur[]> {
     return this.http.get<Formateur[]>(this.apiUrl);

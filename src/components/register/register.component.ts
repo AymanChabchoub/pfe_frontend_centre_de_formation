@@ -18,6 +18,8 @@ export class RegisterComponent {
     telephone: '',
     role: '',
     adresse: '',
+    cvPath:'',
+    specialite:''
   };
 
   selectedCvFile: File | null = null;
@@ -30,73 +32,33 @@ export class RegisterComponent {
 
   onCvSelected(event: any) {
     this.selectedCvFile = event.target.files[0];
+    // Optionnel : stocker le nom du fichier ou un chemin temporaire
+    this.user.cvPath = this.selectedCvFile?.name || '';
+    console.log("CV sélectionné :", this.user.cvPath);
   }
 
-  register() {
-    // 1️⃣ D’abord créer un User
+
+    register() {
+    console.log("this.user.spetialite",this.user.specialite)
+    
     this.authService.register(this.user).subscribe({
-      next: (createdUser) => {
-        console.log("User créé :", createdUser);
-
-        // 2️⃣ Selon le rôle → créer Client ou Formateur
-        if (this.user.role === 'CLIENT') {
-          this.registerClient(createdUser.id);
-        }
-        else if (this.user.role === 'FORMATEUR') {
-          this.registerFormateur(createdUser.id);
-        }
-      },
-      error: err => {
-        console.error("Erreur User :", err);
-        alert("Erreur lors de l'inscription utilisateur.");
-      }
-    });
-  }
-
-  // -------------------------------
-  //  CLIENT
-  // -------------------------------
-  registerClient(userId: number) {
-    const client = {
-      adresse: this.user.adresse,
-      userId: userId
-    };
-
-    this.clientService.create(client).subscribe({
       next: res => {
-        console.log("Client créé :", res);
-        alert("Inscription client réussie !");
+        alert("Inscription réussie !");
+        const userId = res.id;
+
+            if(this.user.role === 'FORMATEUR' && this.selectedCvFile) {
+
+            this.authService.uploadCv(res.id, this.selectedCvFile).subscribe({
+              next: () => alert("CV uploadé avec succès !"),
+              error: err => console.error("Erreur CV :", err)
+            });
+          }
       },
       error: err => {
-        console.error("Erreur Client", err);
-        alert("Erreur lors de la création du client.");
+        console.error(err);
+        alert("Erreur lors de l'inscription");
       }
     });
   }
 
-  // -------------------------------
-  //  FORMATEUR
-  // -------------------------------
-  registerFormateur(userId: number) {
-
-    if (!this.selectedCvFile) {
-      alert("Veuillez sélectionner un fichier CV.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("userId", userId.toString());
-    formData.append("cvFile", this.selectedCvFile);
-
-    this.formateurService.create(formData).subscribe({
-      next: res => {
-        console.log("Formateur créé :", res);
-        alert("Inscription formateur réussie !");
-      },
-      error: err => {
-        console.error("Erreur Formateur", err);
-        alert("Erreur lors de la création du formateur.");
-      }
-    });
-  }
 }

@@ -60,6 +60,12 @@
                         <label for="cvPath" class="form-label">Importer votre CV (PDF)</label>
                         <input class="form-control bg-dark" type="file" id="cvPath" (change)="onCvSelected($event)" accept="application/pdf">
                     </div>
+                                        
+                    <!-- specialite (Formateur uniquement) -->
+                    <div class="form-floating mb-3" *ngIf="user.role === 'FORMATEUR'">
+                        <input type="text" class="form-control" id="specialite" [(ngModel)]="user.specialite" name="specialite">
+                        <label for="specialite">Spécialité</label>
+                    </div>
 
                     <button class="btn btn-primary py-3 w-100 mb-4" (click)="register()">
                         Sign Up

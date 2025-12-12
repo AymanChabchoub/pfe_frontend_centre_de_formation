@@ -26,4 +26,15 @@ export class AuthService {
   logout(token: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, { token });
   }
+  uploadCv(userId: number, cvFile: File) {
+    const formData = new FormData();
+    formData.append('userId', userId.toString());
+    formData.append('cvFile', cvFile, cvFile.name);
+
+    return this.http.post(`${this.baseUrl}/upload-cv`, formData, {
+      responseType: 'text'
+    });
+  }
+
+
 }
