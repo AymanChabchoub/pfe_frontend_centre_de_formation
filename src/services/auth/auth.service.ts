@@ -12,6 +12,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl);
+  }
   // -------- REGISTER --------
   register(user: User): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, user);
@@ -23,9 +26,7 @@ export class AuthService {
   }
 
   // -------- LOGOUT --------
-  logout(token: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/logout`, { token });
-  }
+
   uploadCv(userId: number, cvFile: File) {
     const formData = new FormData();
     formData.append('userId', userId.toString());
@@ -35,6 +36,26 @@ export class AuthService {
       responseType: 'text'
     });
   }
+  getCurrentUser(): User | null {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
+  isTokenExpired(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) return true;  // Si le token est absent, on considère qu'il est expiré.
 
+    // Décoder le token (en supposant qu'il s'agit d'un JWT)
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expirationTime = payload.exp * 1000;  // Convertir en millisecondes
+    const currentTime = new Date().getTime();
+
+    return currentTime >= expirationTime;  // Vérifier si le token est expiré
+  }
+
+  // Se déconnecter
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
 
 }

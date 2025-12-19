@@ -1,0 +1,38 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Formateurs</h6>
+      </div>
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-white">
+              <th>#</th>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>CV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ user.nom }}</td>
+              <td>{{ user.email }}</td>
+              
+              <td>
+                <a *ngIf="user.cvPath" [href]="getPdfUrl(user)" target="_blank" download>
+                  Télécharger CV
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
