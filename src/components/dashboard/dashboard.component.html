@@ -1,0 +1,50 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+            
+        <div class="container-fluid position-relative d-flex p-0">
+            <div class="content">
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <div class="bg-secondary rounded h-100 p-4">
+                                        <h3 class="mb-4">nombre Client</h3>
+                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbClient}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <div class="bg-secondary rounded h-100 p-4">
+                                        <h3 class="mb-4">nombre Formateur</h3>
+                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbFormateur}}</h5>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <div class="bg-secondary rounded h-100 p-4">
+                                        <h3 class="mb-4">nombre de Formation</h3>
+                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbFormation}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12 col-xl-6">
+                            <div class="bg-secondary rounded h-100 p-4">
+                                <h6 class="mb-4">Pie Chart</h6>
+                                <canvas baseChart 
+                                        [type]="'pie'"
+                                [datasets]="chartDataPie"
+                                [labels]="chartLabelsPie"
+                                [options]="chartOptionsPie"
+                                >
+                                </canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Chart End -->
+            </div>
+        </div>

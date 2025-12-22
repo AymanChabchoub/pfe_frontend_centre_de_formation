@@ -11,6 +11,8 @@ import { UpNavComponent } from 'src/components/up-nav/up-nav.component';
 import { LeftNavComponent } from 'src/components/left-nav/left-nav.component';
 import { ListeFormateurComponent } from 'src/components/liste-formateur/liste-formateur.component';
 import { DashboardComponent } from 'src/components/dashboard/dashboard.component';
+import { NgChartsModule } from 'ng2-charts'; // <-- AJOUTER
+
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import { DashboardComponent } from 'src/components/dashboard/dashboard.component
     AppRoutingModule,
     FormsModule,  
     HttpClientModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
