@@ -15,6 +15,10 @@ export class AuthService {
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
+  getUserById(id: number): Observable<User> {
+  return this.http.get<User>(`${this.baseUrl}/${id}`);
+  }
+
   // -------- REGISTER --------
   register(user: User): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, user);

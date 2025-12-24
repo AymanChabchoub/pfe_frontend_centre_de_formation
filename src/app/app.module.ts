@@ -15,6 +15,7 @@ import { NgChartsModule } from 'ng2-charts'; // <-- AJOUTER
 import { CreateSalleComponent } from 'src/components/salle/create-salle/create-salle.component';
 import { CreateFormationComponent } from 'src/components/formation/create-formation/create-formation.component';
 import { CreateSessionFormationComponent } from 'src/components/session_formation/create-session-formation/create-session-formation.component';
+import { ListeFormationComponent } from 'src/components/formation/liste-formation/liste-formation.component';
 
 
 
@@ -29,7 +30,8 @@ import { CreateSessionFormationComponent } from 'src/components/session_formatio
     DashboardComponent,
     CreateSalleComponent,
     CreateFormationComponent,
-    CreateSessionFormationComponent
+    CreateSessionFormationComponent,
+    ListeFormationComponent
     
   ],
   imports: [

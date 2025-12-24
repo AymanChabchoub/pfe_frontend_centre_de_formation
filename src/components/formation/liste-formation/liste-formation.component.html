@@ -1,0 +1,57 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Formations</h6>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-white">
+              <th>#</th>
+              <th>Titre</th>
+              <th>Description</th>
+              <th>Durée (h)</th>
+              <th>Prix</th>
+              <th>Formateur</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let formation of formations; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ formation.titre }}</td>
+              <td>{{ formation.description }}</td>
+              <td>{{ formation.dureeHeures }}</td>
+              <td>{{ formation.prix }} DT</td>
+              <td>{{ formation.formateurNom }}</td>
+
+              <td>
+                <button class="btn btn-sm btn-warning me-2">
+                  Modifier
+                </button>
+                <button class="btn btn-sm btn-danger"
+                        (click)="deleteFormation(formation.id)">
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="formations.length === 0">
+              <td colspan="7" class="text-center text-muted">
+                Aucune formation trouvée
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
