@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from 'src/components/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from 'src/components/login/login.component';
@@ -12,6 +12,9 @@ import { LeftNavComponent } from 'src/components/left-nav/left-nav.component';
 import { ListeFormateurComponent } from 'src/components/liste-formateur/liste-formateur.component';
 import { DashboardComponent } from 'src/components/dashboard/dashboard.component';
 import { NgChartsModule } from 'ng2-charts'; // <-- AJOUTER
+import { CreateSalleComponent } from 'src/components/salle/create-salle/create-salle.component';
+import { CreateFormationComponent } from 'src/components/formation/create-formation/create-formation.component';
+import { CreateSessionFormationComponent } from 'src/components/session_formation/create-session-formation/create-session-formation.component';
 
 
 
@@ -23,14 +26,19 @@ import { NgChartsModule } from 'ng2-charts'; // <-- AJOUTER
     UpNavComponent,
     LeftNavComponent,
     ListeFormateurComponent,
-    DashboardComponent
+    DashboardComponent,
+    CreateSalleComponent,
+    CreateFormationComponent,
+    CreateSessionFormationComponent
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,  
     HttpClientModule,
-    NgChartsModule
+    NgChartsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

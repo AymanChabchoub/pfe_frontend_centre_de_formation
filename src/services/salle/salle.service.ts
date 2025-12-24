@@ -5,33 +5,27 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FormationService {
+export class SalleService {
 
-  private baseUrl = 'http://localhost:8080/api/formations';
+  private baseUrl = 'http://localhost:8080/api/salles';
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 POST /api/formations
-  ajouter(formation: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl, formation);
+  // -------- CREATE --------
+  create(salle: any): Observable<any> {
+    return this.http.post(this.baseUrl, salle);
   }
 
-  // 🔹 GET /api/formations
+  // -------- READ --------
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  // 🔹 GET /api/formations/{id}
   getById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  // 🔹 PUT /api/formations/{id}
-  update(id: number, formation: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${id}`, formation);
-  }
-
-  // 🔹 DELETE /api/formations/{id}
+  // -------- DELETE --------
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }

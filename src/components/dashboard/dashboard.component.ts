@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ChartDataset, ChartOptions } from 'chart.js';
 import { AuthService } from 'src/services/auth/auth.service';
 import { FormationService } from 'src/services/formation/formation.service';
+import { InscriptionService } from 'src/services/inscription/inscription.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,8 @@ export class DashboardComponent {
   nbInscription: number = 0;
   tab_nom_formation:string[]=[]
   tab_nombre_inscription:number[]=[]
+  
+
 
   chartDataPie: ChartDataset<'pie'>[] = [
     {
@@ -39,6 +42,7 @@ export class DashboardComponent {
   constructor(
     private userService: AuthService,
     private formationService: FormationService,
+    private inscriptionService: InscriptionService
   ) { }
   ngOnInit(): void {
     
@@ -53,6 +57,10 @@ export class DashboardComponent {
           this.nbFormateur++;
         }
       }
+          // Fetch Inscription Data
+        this.inscriptionService.getAll().subscribe((data) => {
+          this.nbInscription = data.length;
+        });
       // Update Pie Chart Data
       this.chartDataPie[0].data = [this.nbClient, this.nbFormateur];
       console.log(this.chartDataPie[0].data)
