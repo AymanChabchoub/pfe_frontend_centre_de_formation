@@ -1,56 +1,82 @@
 <app-left-nav></app-left-nav>
 <app-up-nav></app-up-nav>
 
-            
-        <div class="container-fluid position-relative d-flex p-0">
-            <div class="content">
-                <div class="container-fluid pt-4 px-4">
-                    <div class="row g-4">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <div class="bg-secondary rounded h-100 p-4">
-                                        <h3 class="mb-4">nombre Client</h3>
-                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbClient}}</h5>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <div class="bg-secondary rounded h-100 p-4">
-                                        <h3 class="mb-4">nombre Formateur</h3>
-                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbFormateur}}</h5>
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
 
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <div class="bg-secondary rounded h-100 p-4">
-                                        <h3 class="mb-4">nombre de Formation</h3>
-                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbFormation}}</h5>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <div class="bg-secondary rounded h-100 p-4">
-                                        <h3 class="mb-4">nombre Inscription</h3>
-                                        <h5 >&nbsp;&nbsp;&nbsp;{{nbInscription}}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-sm-12 col-xl-6">
-                            <div class="bg-secondary rounded h-100 p-4">
-                                <h6 class="mb-4">Pie Chart</h6>
-                                <canvas baseChart 
-                                        [type]="'pie'"
-                                [datasets]="chartDataPie"
-                                [labels]="chartLabelsPie"
-                                [options]="chartOptionsPie"
-                                >
-                                </canvas>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- Chart End -->
-            </div>
+    <!-- KPIs -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-3">
+        <div class="bg-secondary p-4 rounded text-center">
+          <h5>Clients</h5>
+          <h3>{{ nbClient }}</h3>
         </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="bg-secondary p-4 rounded text-center">
+          <h5>Formateurs</h5>
+          <h3>{{ nbFormateur }}</h3>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="bg-secondary p-4 rounded text-center">
+          <h5>Formations</h5>
+          <h3>{{ nbFormation }}</h3>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="bg-secondary p-4 rounded text-center">
+          <h5>Inscriptions</h5>
+          <h3>{{ nbInscription }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4">
+
+      <!-- PIE -->
+      <div class="col-xl-4">
+        <div class="bg-secondary rounded p-4">
+          <h6 class="mb-3">Répartition des utilisateurs</h6>
+          <canvas baseChart
+                  [type]="'pie'"
+                  [datasets]="chartDataPie"
+                  [labels]="chartLabelsPie"
+                  [options]="chartOptionsPie">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- FORMATEURS -->
+      <div class="col-xl-4">
+        <div class="bg-secondary rounded p-4">
+          <h6 class="mb-3">Formateurs les plus actifs</h6>
+          <canvas baseChart
+                  [type]="'bar'"
+                  [datasets]="chartDataFormateurs"
+                  [labels]="chartLabelsFormateurs"
+                  [options]="chartOptionsFormateurs">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- RENTABILITÉ -->
+      <div class="col-xl-4">
+        <div class="bg-secondary rounded p-4">
+          <h6 class="mb-3">Rentabilité des formations</h6>
+          <canvas baseChart
+                  [type]="'bar'"
+                  [datasets]="chartDataRentabilite"
+                  [labels]="chartLabelsRentabilite"
+                  [options]="chartOptionsRentabilite">
+          </canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

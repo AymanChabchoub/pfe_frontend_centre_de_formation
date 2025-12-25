@@ -62,4 +62,10 @@ export class AuthService {
     localStorage.removeItem('user');
   }
 
+  // 🔹 Récupérer les formateurs par spécialité
+    getFormateursBySpecialite(specialite: string) : Observable<User[]> {
+      return this.http.get<User[]>(`${this.baseUrl}/formateurs/specialite/${specialite}`);
+    }
+
+
 }

@@ -64,6 +64,22 @@
                 Capacité requise (≥ 1).
               </div>
             </div>
+            <!-- Adresse -->
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="adresse"
+                formControlName="adresse"
+                placeholder="Adresse de la salle">
+              <label for="adresse">Adresse de la Salle</label>
+
+              <div *ngIf="salleForm.get('adresse')?.invalid && salleForm.get('adresse')?.touched"
+                  class="text-danger">
+                Adresse est requise.
+              </div>
+            </div>
+
 
             <!-- Submit -->
             <input

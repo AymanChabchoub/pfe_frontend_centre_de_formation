@@ -21,7 +21,9 @@ export class CreateSalleComponent implements OnInit {
   ngOnInit(): void {
     this.salleForm = this.fb.group({
       nom: ['', Validators.required],
-      capacite: [null, [Validators.required, Validators.min(1)]]
+      capacite: [null, [Validators.required, Validators.min(1)]],
+      adresse: ['', Validators.required] // Nouveau champ
+
     });
   }
 
@@ -37,7 +39,8 @@ export class CreateSalleComponent implements OnInit {
 
     const salle = {
       nom: this.salleForm.value.nom,
-      capacite: this.salleForm.value.capacite
+      capacite: this.salleForm.value.capacite,
+      adresse: this.salleForm.value.adresse
     };
 
     this.salleService.create(salle).subscribe({
