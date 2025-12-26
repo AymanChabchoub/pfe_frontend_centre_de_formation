@@ -16,6 +16,7 @@ export class CreateSessionFormationComponent {
   dateDebut!: string;
   dateFin!: string;
 
+  selectedSpecialite: string = '';
   formateurId!: number;
   formationId!: number;
   salleId!: number;
@@ -25,6 +26,7 @@ export class CreateSessionFormationComponent {
   errorMessage = '';
 
   // Listes déroulantes
+  specialites: string[] = [];
   formateurs: any[] = [];
   formations: any[] = [];
   salles: any[] = [];
@@ -37,35 +39,61 @@ export class CreateSessionFormationComponent {
   ) {}
 
   ngOnInit(): void {
-    this.loadFormateurs();
-    this.loadFormations();
+    this.loadSpecialites();
     this.loadSalles();
   }
 
-  // 🔹 Formateurs
-  loadFormateurs(): void {
+  // 🔹 Charger toutes les spécialités (unique)
+  loadSpecialites(): void {
     this.authService.getAllUsers().subscribe(res => {
-      this.formateurs = res.filter((u: any) => u.role === 'FORMATEUR');
+      const formateurs = res.filter((u: any) => u.role === 'FORMATEUR' && u.specialite);
+      this.specialites = Array.from(new Set(formateurs.map(f => f.specialite)));
     });
   }
 
-  // 🔹 Formations
-  loadFormations(): void {
-    this.formationService.getAll().subscribe(res => {
+  // 🔹 Charger les formateurs selon la spécialité sélectionnée
+  onSpecialiteChange(): void {
+    if (!this.selectedSpecialite) {
+      this.formateurs = [];
+      this.formateurId = 0;
+      this.formations = [];
+      this.formationId = 0;
+      return;
+    }
+
+    this.authService.getFormateursBySpecialite(this.selectedSpecialite).subscribe(res => {
+      this.formateurs = res;
+      this.formateurId = 0;
+      this.formations = [];
+      this.formationId = 0;
+    });
+  }
+
+  // 🔹 Charger les formations selon le formateur sélectionné
+  onFormateurChange(): void {
+    if (!this.formateurId) {
+      this.formations = [];
+      this.formationId = 0;
+      return;
+    }
+
+    this.formationService.getByFormateurId(this.formateurId).subscribe(res => {
       this.formations = res;
+      this.formationId = 0;
     });
   }
 
-  // 🔹 Salles (statique pour l’instant)
+  // 🔹 Salles
   loadSalles(): void {
     this.salleService.getAll().subscribe(res => {
       this.salles = res;
+      console.log("Salles chargées:", this.salles);
     });
   }
 
   onSubmit(): void {
     if (!this.titre || !this.description || !this.dateDebut || !this.dateFin ||
-        !this.formateurId || !this.formationId || !this.salleId) {
+        !this.selectedSpecialite || !this.formateurId || !this.formationId || !this.salleId) {
       this.errorMessage = 'Veuillez remplir tous les champs.';
       return;
     }
@@ -102,10 +130,11 @@ export class CreateSessionFormationComponent {
     this.description = '';
     this.dateDebut = '';
     this.dateFin = '';
+    this.selectedSpecialite = '';
     this.formateurId = 0;
     this.formationId = 0;
     this.salleId = 0;
+    this.formateurs = [];
+    this.formations = [];
   }
-
-
 }

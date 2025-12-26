@@ -6,4 +6,5 @@ export interface User {
   password: string;
   role: string; // RoleType.CLIENT, RoleType.FORMATEUR...
   cvPath:string;
+  specialite:string;
 }

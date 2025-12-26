@@ -44,13 +44,20 @@
                 <label>Date fin</label>
               </div>
 
+              <!-- Spécialité -->
+              <div class="form-floating mb-3">
+                <select class="form-select" [(ngModel)]="selectedSpecialite" name="specialite" (change)="onSpecialiteChange()">
+                  <option value="" disabled selected>Choisir une spécialité</option>
+                  <option *ngFor="let s of specialites" [value]="s">{{ s }}</option>
+                </select>
+                <label>Spécialité</label>
+              </div>
+
               <!-- Formateur -->
               <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="formateurId" name="formateurId">
+                <select class="form-select" [(ngModel)]="formateurId" name="formateurId" (change)="onFormateurChange()">
                   <option value="" disabled selected>Choisir un formateur</option>
-                  <option *ngFor="let f of formateurs" [value]="f.id">
-                    {{ f.nom }} {{ f.prenom }}
-                  </option>
+                  <option *ngFor="let f of formateurs" [value]="f.id">{{ f.nom }} {{ f.prenom }}</option>
                 </select>
                 <label>Formateur</label>
               </div>
@@ -59,9 +66,7 @@
               <div class="form-floating mb-3">
                 <select class="form-select" [(ngModel)]="formationId" name="formationId">
                   <option value="" disabled selected>Choisir une formation</option>
-                  <option *ngFor="let f of formations" [value]="f.id">
-                    {{ f.titre }}
-                  </option>
+                  <option *ngFor="let f of formations" [value]="f.id">{{ f.titre }}</option>
                 </select>
                 <label>Formation</label>
               </div>
@@ -70,9 +75,7 @@
               <div class="form-floating mb-3">
                 <select class="form-select" [(ngModel)]="salleId" name="salleId">
                   <option value="" disabled selected>Choisir une salle</option>
-                  <option *ngFor="let s of salles" [value]="s.id">
-                    {{ s.nom }}
-                  </option>
+                  <option *ngFor="let s of salles" [value]="s.id">nom:{{ s.nom }} ,Adresse: {{s.adresse}}</option>
                 </select>
                 <label>Salle</label>
               </div>

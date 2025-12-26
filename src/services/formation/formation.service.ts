@@ -35,4 +35,9 @@ export class FormationService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  // 🔹 GET /api/formations/formateur/{formateurId}
+  getByFormateurId(formateurId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/formateur/${formateurId}`);
+  }
+
 }
