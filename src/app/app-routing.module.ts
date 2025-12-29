@@ -8,6 +8,7 @@ import { LoginComponent } from 'src/components/login/login.component';
 import { RegisterComponent } from 'src/components/register/register.component';
 import { CreateSalleComponent } from 'src/components/salle/create-salle/create-salle.component';
 import { CreateSessionFormationComponent } from 'src/components/session_formation/create-session-formation/create-session-formation.component';
+import { ListeSessionFormationByFormationIdComponent } from 'src/components/session_formation/liste-session-formation-by-formation-id/liste-session-formation-by-formation-id.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,7 +19,9 @@ const routes: Routes = [
   { path: 'create-salle', component: CreateSalleComponent },
   { path: 'create-formation', component: CreateFormationComponent },
   { path: 'create-session-formation', component: CreateSessionFormationComponent },
-  { path: 'liste-formation', component: ListeFormationComponent }
+  { path: 'liste-formation', component: ListeFormationComponent },
+  {path: 'sessions/:formationId',component: ListeSessionFormationByFormationIdComponent}
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

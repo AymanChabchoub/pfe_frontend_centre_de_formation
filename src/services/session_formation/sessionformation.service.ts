@@ -36,4 +36,9 @@ export class SessionFormationService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  // 🔹 Récupérer les sessions par ID de formation
+  getByFormationId(formationId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/formation/${formationId}`);
+  }
+
 }

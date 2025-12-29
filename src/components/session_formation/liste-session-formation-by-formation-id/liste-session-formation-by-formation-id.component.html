@@ -1,0 +1,66 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+
+      <h6 class="mb-4">
+        Sessions de formation – Formation #{{ formationId }}
+      </h6>
+
+      <!-- Messages -->
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-white">
+              <th>#</th>
+              <th>Titre</th>
+              <th>Description</th>
+              <th>Date début</th>
+              <th>Date fin</th>
+              <th>Formateur</th>
+              <th>Salle</th>
+              <th>Adresse</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let s of sessions; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ s.titre }}</td>
+              <td>{{ s.description }}</td>
+              <td>{{ s.dateDebut }}</td>
+              <td>{{ s.dateFin }}</td>
+              <td>{{ s.formateurNom || '—' }}</td>
+              <td>{{ s.salleNom || '—' }}</td>
+              <td>{{ s.salleAdresse || '—' }}</td>
+
+              <td>
+                <button class="btn btn-sm btn-success"
+                        (click)="inscrire(s.id)">
+                  S'inscrire
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="sessions.length === 0">
+              <td colspan="9" class="text-center text-muted">
+                Aucune session trouvée
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -16,6 +16,7 @@ import { CreateSalleComponent } from 'src/components/salle/create-salle/create-s
 import { CreateFormationComponent } from 'src/components/formation/create-formation/create-formation.component';
 import { CreateSessionFormationComponent } from 'src/components/session_formation/create-session-formation/create-session-formation.component';
 import { ListeFormationComponent } from 'src/components/formation/liste-formation/liste-formation.component';
+import { ListeSessionFormationByFormationIdComponent } from 'src/components/session_formation/liste-session-formation-by-formation-id/liste-session-formation-by-formation-id.component';
 
 
 
@@ -31,7 +32,8 @@ import { ListeFormationComponent } from 'src/components/formation/liste-formatio
     CreateSalleComponent,
     CreateFormationComponent,
     CreateSessionFormationComponent,
-    ListeFormationComponent
+    ListeFormationComponent,
+    ListeSessionFormationByFormationIdComponent
     
   ],
   imports: [

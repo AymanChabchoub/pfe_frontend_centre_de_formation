@@ -19,7 +19,7 @@
               <th>Durée (h)</th>
               <th>Prix</th>
               <th>Formateur</th>
-              <th>Actions</th>
+              <th>Sessions</th>
             </tr>
           </thead>
 
@@ -33,14 +33,13 @@
               <td>{{ formation.formateurNom }}</td>
 
               <td>
-                <button class="btn btn-sm btn-warning me-2">
-                  Modifier
-                </button>
-                <button class="btn btn-sm btn-danger"
-                        (click)="deleteFormation(formation.id)">
-                  Supprimer
+                <button
+                  class="btn btn-sm btn-info"
+                  (click)="goToSessions(formation.id)">
+                  Afficher sessions
                 </button>
               </td>
+
             </tr>
 
             <tr *ngIf="formations.length === 0">

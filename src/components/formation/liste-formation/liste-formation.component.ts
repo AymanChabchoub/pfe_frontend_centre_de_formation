@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth/auth.service';
 import { FormationService } from 'src/services/formation/formation.service';
 
@@ -14,7 +15,9 @@ export class ListeFormationComponent implements OnInit {
 
   constructor(
     private formationService: FormationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -67,4 +70,8 @@ export class ListeFormationComponent implements OnInit {
       }
     );
   }
+  goToSessions(formationId: number): void {
+  this.router.navigate(['/sessions', formationId]);
+}
+
 }
