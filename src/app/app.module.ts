@@ -17,6 +17,7 @@ import { CreateFormationComponent } from 'src/components/formation/create-format
 import { CreateSessionFormationComponent } from 'src/components/session_formation/create-session-formation/create-session-formation.component';
 import { ListeFormationComponent } from 'src/components/formation/liste-formation/liste-formation.component';
 import { ListeSessionFormationByFormationIdComponent } from 'src/components/session_formation/liste-session-formation-by-formation-id/liste-session-formation-by-formation-id.component';
+import { FaceLoginComponent } from 'src/components/face-login/face-login.component';
 
 
 
@@ -33,7 +34,8 @@ import { ListeSessionFormationByFormationIdComponent } from 'src/components/sess
     CreateFormationComponent,
     CreateSessionFormationComponent,
     ListeFormationComponent,
-    ListeSessionFormationByFormationIdComponent
+    ListeSessionFormationByFormationIdComponent,
+    FaceLoginComponent
     
   ],
   imports: [

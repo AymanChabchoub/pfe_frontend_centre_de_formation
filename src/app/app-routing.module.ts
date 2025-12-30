@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from 'src/components/dashboard/dashboard.component';
+import { FaceLoginComponent } from 'src/components/face-login/face-login.component';
 import { CreateFormationComponent } from 'src/components/formation/create-formation/create-formation.component';
 import { ListeFormationComponent } from 'src/components/formation/liste-formation/liste-formation.component';
 import { ListeFormateurComponent } from 'src/components/liste-formateur/liste-formateur.component';
@@ -20,7 +21,9 @@ const routes: Routes = [
   { path: 'create-formation', component: CreateFormationComponent },
   { path: 'create-session-formation', component: CreateSessionFormationComponent },
   { path: 'liste-formation', component: ListeFormationComponent },
-  {path: 'sessions/:formationId',component: ListeSessionFormationByFormationIdComponent}
+  { path: 'sessions/:formationId',component: ListeSessionFormationByFormationIdComponent},
+  { path: 'face-login', component: FaceLoginComponent }
+ 
 
 ];
 @NgModule({

@@ -1,0 +1,58 @@
+<div class="container-fluid position-relative d-flex p-0">
+  <div class="container-fluid">
+    <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+        <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+
+          <!-- Title -->
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h3 class="text-primary">
+              <i class="fa fa-camera me-2"></i>Face Recognition Login
+            </h3>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="form-floating mb-4">
+            <input
+              type="file"
+              class="form-control"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            >
+            <label>Choose your face image</label>
+          </div>
+
+          <!-- Loading -->
+          <div *ngIf="loading" class="alert alert-info text-center">
+            Reconnaissance faciale en cours...
+          </div>
+
+          <!-- Error -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Button -->
+          <button
+            class="btn btn-primary py-3 w-100 mb-4"
+            (click)="faceLogin()"
+            [disabled]="loading"
+          >
+            <i class="fa fa-sign-in-alt me-2"></i>
+            Se connecter
+          </button>
+
+          <!-- Divider -->
+          <hr>
+
+          <!-- Link back -->
+          <p class="text-center mb-0">
+            Or login with password ?
+            <a routerLink="/login">Classic Login</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../models/User';
+import { AuthResponse } from 'src/models/AuthResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,18 @@ export class AuthService {
     getFormateursBySpecialite(specialite: string) : Observable<User[]> {
       return this.http.get<User[]>(`${this.baseUrl}/formateurs/specialite/${specialite}`);
     }
+
+    faceLogin(image: File) {
+      const formData = new FormData();
+      formData.append('image', image);
+
+      return this.http.post<AuthResponse>(
+        'http://localhost:8080/api/users/face-login',
+        formData
+      );
+    }
+
+
 
 
 }
