@@ -19,10 +19,12 @@ export class RegisterComponent {
     role: '',
     adresse: '',
     cvPath:'',
-    specialite:''
+    specialite:'',
+    image:''
   };
 
   selectedCvFile: File | null = null;
+  selectedImageFile: File | null = null;
 
   constructor(
     private authService: AuthService,
@@ -36,7 +38,12 @@ export class RegisterComponent {
     this.user.cvPath = this.selectedCvFile?.name || '';
     console.log("CV sélectionné :", this.user.cvPath);
   }
-
+  onImageSelected(event: any) {
+    this.selectedImageFile = event.target.files[0];
+    // Optionnel : stocker le nom du fichier ou un chemin temporaire
+    this.user.image = this.selectedImageFile?.name || '';
+    console.log("Image sélectionnée :", this.user.image);
+  }
 
     register() {
     console.log("this.user.spetialite",this.user.specialite)
@@ -45,7 +52,10 @@ export class RegisterComponent {
       next: res => {
         alert("Inscription réussie !");
         const userId = res.id;
-
+            this.authService.uploadImage(userId, this.selectedImageFile!).subscribe({
+              next: () => console.log("Image uploadée avec succès !"),
+              error: err => console.error("Erreur image :", err)
+            });
             if(this.user.role === 'FORMATEUR' && this.selectedCvFile) {
 
             this.authService.uploadCv(res.id, this.selectedCvFile).subscribe({

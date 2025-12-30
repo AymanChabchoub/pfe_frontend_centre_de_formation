@@ -40,6 +40,15 @@ export class AuthService {
       responseType: 'text'
     });
   }
+  uploadImage(userId: number, imgFile: File) {
+    const formData = new FormData();
+    formData.append('userId', userId.toString());
+    formData.append('imgFile', imgFile, imgFile.name);
+
+    return this.http.post(`${this.baseUrl}/upload-img`, formData, {
+      responseType: 'text'
+    });
+  }
   getCurrentUser(): User | null {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;

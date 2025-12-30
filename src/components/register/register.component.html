@@ -38,6 +38,11 @@
                         <input type="text" class="form-control" id="telephone" [(ngModel)]="user.telephone" name="telephone">
                         <label for="telephone">Téléphone</label>
                     </div>
+                    <!-- Image -->
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Importer votre Image</label>
+                        <input class="form-control bg-dark" type="file" id="image" (change)="onImageSelected($event)">
+                    </div>
 
                     <!-- ROLE -->
                     <div class="form-floating mb-3">
