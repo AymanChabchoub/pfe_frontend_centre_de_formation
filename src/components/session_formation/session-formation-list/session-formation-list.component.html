@@ -1,0 +1,65 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Sessions de Formation</h6>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table text-start align-middle table-bordered table-hover mb-0">
+          <thead>
+            <tr class="text-white">
+              <th>#</th>
+              <th>Titre</th>
+              <th>Description</th>
+              <th>Date début</th>
+              <th>Date fin</th>
+              <th>Salle</th>
+              <th>Formateur</th>
+              <th>Inscriptions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let session of sessions; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ session.titre }}</td>
+              <td>{{ session.description }}</td>
+              <td>{{ session.dateDebut | date:'dd/MM/yyyy' }}</td>
+              <td>{{ session.dateFin | date:'dd/MM/yyyy' }}</td>
+              <td>{{ session.salleId }}</td>
+              <td>{{ session.formateurId }}</td>
+              <td><button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">Afficher inscriptions</button></td>
+
+            </tr>
+
+            <tr *ngIf="sessions.length === 0 && !loading">
+              <td colspan="7" class="text-center text-muted">
+                Aucune session trouvée
+              </td>
+            </tr>
+
+            <tr *ngIf="loading">
+              <td colspan="7" class="text-center text-info">
+                Chargement des sessions...
+              </td>
+            </tr>
+
+            <tr *ngIf="errorMessage">
+              <td colspan="7" class="text-center text-danger">
+                {{ errorMessage }}
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

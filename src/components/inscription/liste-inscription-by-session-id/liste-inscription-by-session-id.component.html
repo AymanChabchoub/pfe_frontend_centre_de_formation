@@ -1,0 +1,97 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">
+          Liste des Inscriptions (Session #{{ sessionId }})
+        </h6>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover text-start align-middle mb-0">
+        <thead>
+            <tr class="text-white">
+                <th>#</th>
+                <th>Apprenant</th>
+                <th>Formateur</th>
+                <th>Session</th>
+                <th>Date inscription</th>
+                <th>Statut</th>
+                <th>Présence</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let inscription of inscriptions; let i = index">
+            <td>{{ i + 1 }}</td>
+
+            <!-- Apprenant -->
+            <td>
+            {{ inscription.apprenant?.nom }}
+            {{ inscription.apprenant?.prenom }}
+            </td>
+
+            <!-- Formateur -->
+            <td>
+            Formateur #{{ inscription.sessionFormation?.formateurId }}
+            </td>
+
+            <!-- Session -->
+            <td>
+            {{ inscription.sessionFormation?.titre }}
+            </td>
+
+            <!-- Date -->
+            <td>
+            {{ inscription.dateInscription | date:'dd/MM/yyyy' }}
+            </td>
+
+            <!-- Statut -->
+            <td>
+            <span
+                class="badge"
+                [ngClass]="inscription.payee ? 'bg-success' : 'bg-warning'">
+                {{ inscription.payee ? 'Payée' : 'Non payée' }}
+            </span>
+            </td>
+            <td>
+                <button
+                    *ngIf="!inscription.present"
+                    class="btn btn-sm btn-danger"
+                    (click)="markPresent(inscription)">
+                    Absent
+                </button>
+
+                <span *ngIf="inscription.present" class="badge bg-success">
+                    Présent
+                </span>
+            </td>
+
+        </tr>
+
+        <tr *ngIf="inscriptions.length === 0 && !loading">
+            <td colspan="6" class="text-center text-muted">
+            Aucune inscription trouvée
+            </td>
+        </tr>
+
+        <tr *ngIf="loading">
+            <td colspan="6" class="text-center text-info">
+            Chargement...
+            </td>
+        </tr>
+
+        </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
