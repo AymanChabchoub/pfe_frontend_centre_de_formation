@@ -35,4 +35,16 @@ export class PresenceService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  // 👉 utilisé par QR et bouton
+  pointage(inscriptionId: number) {
+    return this.http.post(`${this.baseUrl}/pointage/${inscriptionId}`, {});
+  }
+
+  generateQr(inscriptionId: number) {
+    return this.http.get(
+      `${this.baseUrl}/qr/${inscriptionId}`,
+      { responseType: 'blob' }
+    );
+  }
+
 }

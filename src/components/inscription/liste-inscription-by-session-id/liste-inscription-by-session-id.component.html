@@ -22,6 +22,8 @@
                 <th>Date inscription</th>
                 <th>Statut</th>
                 <th>Présence</th>
+                <th>QR Code</th>
+
 
             </tr>
         </thead>
@@ -72,6 +74,14 @@
                     Présent
                 </span>
             </td>
+            <td>
+              <button
+                class="btn btn-sm btn-info"
+                (click)="generateQr(inscription)">
+                Générer QR
+              </button>
+            </td>
+
 
         </tr>
 

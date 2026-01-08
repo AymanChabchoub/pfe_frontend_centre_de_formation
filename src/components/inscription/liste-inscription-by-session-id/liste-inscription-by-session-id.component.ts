@@ -62,5 +62,17 @@ export class ListeInscriptionBySessionIdComponent implements OnInit {
     }
   });
 }
+generateQr(inscription: any): void {
+  this.presenceService.generateQr(inscription.id).subscribe({
+    next: (blob) => {
+      const url = URL.createObjectURL(blob);
+      window.open(url);
+    },
+    error: (err) => {
+      console.error('Erreur QR', err);
+    }
+  });
+}
+
 
 }
