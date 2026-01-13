@@ -36,9 +36,14 @@ export class PresenceService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
   // 👉 utilisé par QR et bouton
-  pointage(inscriptionId: number) {
-    return this.http.post(`${this.baseUrl}/pointage/${inscriptionId}`, {});
-  }
+pointage(inscriptionId: number) {
+  return this.http.post(
+    `http://localhost:8080/api/presences/pointage/${inscriptionId}`,
+    {},
+    { responseType: 'text' }
+  );
+}
+
 
   generateQr(inscriptionId: number) {
     return this.http.get(

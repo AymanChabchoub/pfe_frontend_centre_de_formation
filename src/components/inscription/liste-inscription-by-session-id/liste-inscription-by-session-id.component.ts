@@ -40,14 +40,23 @@ export class ListeInscriptionBySessionIdComponent implements OnInit {
       }
     });
   }
+  markPresentPointage(inscription: any): void {
+  this.presenceService.pointage(inscription.id).subscribe({
+    next: () => inscription.present = true,
+    error: err => console.error(err)
+  });
+}
+
   markPresent(inscription: any): void {
 
   const presencePayload = {
-    participantNom:
-      inscription.apprenant.nom + ' ' + inscription.apprenant.prenom,
+    participantNom:inscription.apprenant.nom + ' ' + inscription.apprenant.prenom,
     present: true,
     sessionFormation: {
       id: inscription.sessionFormation.id
+    },
+    inscription: {
+      id: inscription.id
     },
     heureArrivee: new Date().toISOString().substring(11, 19),
     date: new Date()
@@ -56,9 +65,12 @@ export class ListeInscriptionBySessionIdComponent implements OnInit {
   this.presenceService.create(presencePayload).subscribe({
     next: () => {
       inscription.present = true; // état frontend
+      console.log("presencePayload", presencePayload);
     },
     error: (err) => {
       console.error('Erreur présence', err);
+      console.log("presencePayload", presencePayload);
+
     }
   });
 }
