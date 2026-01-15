@@ -4,6 +4,9 @@ import { SessionFormationService } from 'src/services/session_formation/sessionf
 import { AuthService } from 'src/services/auth/auth.service';
 import { SalleService } from 'src/services/salle/salle.service';
 import { InscriptionService } from 'src/services/inscription/inscription.service';
+import { PaiementService } from 'src/services/payment/payment.service';
+import { FactureService } from 'src/services/facture/facture.service';
+import { FormationService } from 'src/services/formation/formation.service';
 
 @Component({
   selector: 'app-liste-session-formation-by-formation-id',
@@ -17,6 +20,7 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
   isLoading = false;
   successMessage = '';
   errorMessage = '';
+  formation:any;
 
   currentUserId!: undefined | number;
 
@@ -25,7 +29,11 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
     private sessionService: SessionFormationService,
     private authService: AuthService,
     private salleService: SalleService,
-    private inscriptionService: InscriptionService
+    private inscriptionService: InscriptionService,
+    private factureService: FactureService,
+    private paiementService: PaiementService,
+    private formationService: FormationService // <-- injection du service
+    
   ) {}
 
   ngOnInit(): void {
@@ -35,8 +43,21 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
     if (user) {
       this.currentUserId = user.id;
     }
+    // 1️⃣ récupérer la formation complète
+    this.getFormationById(this.formationId);
 
     this.loadSessions();
+  }
+  getFormationById(formationId: number): void {
+    this.formationService.getById(formationId).subscribe({
+      next: formation => {
+        this.formation = formation;
+      },
+      error: err => {
+        console.error('Erreur récupération formation', err);
+        this.errorMessage = 'Impossible de récupérer la formation';
+      }
+    });
   }
 
   loadSessions(): void {
@@ -47,7 +68,8 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
         this.sessions = res;
 
         this.sessions.forEach(s => {
-
+          // Associer le prix de la formation
+          s.prix = s.formation?.prix || s.prix || 0; // fallback si rien n'existe
           if (s.formateurId) {
             this.authService.getUserById(s.formateurId).subscribe(user => {
               s.formateurNom = user.nom + ' ' + user.prenom;
@@ -91,4 +113,75 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
       }
     );
   }
+  
+  createPayment(session: any): void {
+    if (!this.currentUserId) {
+      this.errorMessage = 'Vous devez être connecté';
+      return;
+    }
+
+    // Assigner le montant depuis la formation
+    const montant = this.formation?.prix || session.prix || 0;
+
+    // 1️⃣ vérifier si inscription existe
+    this.inscriptionService.getBySession(session.id).subscribe(inscriptions => {
+
+      const inscriptionExistante = inscriptions.find(
+        i => i.apprenant?.id === this.currentUserId
+      );
+
+      if (inscriptionExistante) {
+        // 🔹 CAS 1 : inscription existe
+        this.processPayment(inscriptionExistante.id, montant, session.id);
+      } else {
+        // 🔹 CAS 2 : inscription n'existe pas
+        const inscription = {
+          userId: this.currentUserId,
+          sessionId: session.id,
+        };
+
+        this.inscriptionService.create(inscription).subscribe(newInscription => {
+          this.processPayment(newInscription.id, montant, session.id);
+        });
+      }
+    });
+  }
+
+  processPayment(inscriptionId: number, montant: number, sessionId: number): void {
+    const factureDTO = {
+      numeroFacture: 'FAC-' + Date.now(),
+      montantHT: montant,
+      montantTVA: montant * 0.19,
+      montantTTC: montant * 1.19,
+      userId: this.currentUserId,
+      sessionId: sessionId
+    };
+    console.log('FactureDTO envoyé :', factureDTO);
+
+    this.factureService.create(factureDTO).subscribe({
+      next: f => {
+        const paiement = {
+          factureId: f.id,
+          montant: f.montantTTC,
+          datePaiement: new Date(),
+          mode: 'CARTE'
+        };
+
+        this.paiementService.create(paiement).subscribe(() => {
+          this.inscriptionService.update(inscriptionId, { payee: true }).subscribe(() => {
+            this.successMessage = 'Paiement effectué avec succès';
+            this.errorMessage = '';
+          });
+        });
+      },
+      error: err => {
+        console.error('Erreur création facture', err);
+        this.errorMessage = 'Erreur lors de la création de la facture';
+      }
+    });
+  }
+
+
+
+
 }

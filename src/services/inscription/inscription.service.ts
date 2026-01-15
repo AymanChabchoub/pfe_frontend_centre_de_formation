@@ -37,4 +37,11 @@ export class InscriptionService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  marquerPayee(id: number): Observable<void> {
+  return this.http.put<void>(`${this.baseUrl}/${id}/payer`, {});
+  }
+  update(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${id}`, data);
+  }
+
 }
