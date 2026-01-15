@@ -7,6 +7,9 @@ import { InscriptionService } from 'src/services/inscription/inscription.service
 import { PaiementService } from 'src/services/payment/payment.service';
 import { FactureService } from 'src/services/facture/facture.service';
 import { FormationService } from 'src/services/formation/formation.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 
 @Component({
   selector: 'app-liste-session-formation-by-formation-id',
@@ -21,6 +24,7 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   formation:any;
+  selectedSession:any;
 
   currentUserId!: undefined | number;
 
@@ -88,6 +92,17 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
       },
       () => this.isLoading = false
     );
+  }
+  getSessionById(sessionId: number): void {
+    this.sessionService.getById(sessionId).subscribe({
+      next: session => {
+        this.selectedSession = session;
+      },
+      error: err => {
+        console.error('Erreur récupération session', err);
+        this.errorMessage = 'Impossible de récupérer la session';
+      }
+    });
   }
 
   // ✅ INSCRIPTION
@@ -171,6 +186,8 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
           this.inscriptionService.update(inscriptionId, { payee: true }).subscribe(() => {
             this.successMessage = 'Paiement effectué avec succès';
             this.errorMessage = '';
+            this.getSessionById(sessionId); 
+            this.genererFacturePDF(factureDTO, { id: sessionId });
           });
         });
       },
@@ -180,6 +197,53 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
       }
     });
   }
+genererFacturePDF(facture: any,session: any): void {
+
+  const doc = new jsPDF();
+
+  const user = this.authService.getCurrentUser();
+    if (!user) {
+    this.errorMessage = 'Utilisateur non connecté';
+    return;
+  }
+
+  // ====== TITRE ======
+  doc.setFontSize(18);
+  doc.text('FACTURE', 105, 20, { align: 'center' });
+
+  // ====== INFOS FACTURE ======
+  doc.setFontSize(11);
+  doc.text(`Numéro facture : ${facture.numeroFacture}`, 20, 40);
+  doc.text(`Date : ${new Date().toLocaleDateString()}`, 20, 48);
+
+  // ====== CLIENT ======
+  doc.text('Client :', 20, 65);
+  doc.text(`${user.nom} ${user.prenom}`, 20, 72);
+  doc.text(`${user.email}`, 20, 79);
+
+  // ====== SESSION / FORMATION ======
+  doc.text('Formation :', 120, 65);
+  doc.text(this.formation?.titre || '', 120, 72);
+  doc.text(`Session ID : ${session.id}`, 120, 79);
+
+  // ====== TABLE FACTURE ======
+  autoTable(doc, {
+    startY: 95,
+    head: [['Description', 'Montant']],
+    body: [
+      ['Prix formation (HT)', `${facture.montantHT.toFixed(2)} DT`],
+      ['TVA (19%)', `${facture.montantTVA.toFixed(2)} DT`],
+      ['Total TTC', `${facture.montantTTC.toFixed(2)} DT`],
+    ],
+  });
+
+  // ====== FOOTER ======
+  const finalY = (doc as any).lastAutoTable.finalY;
+  doc.text('Paiement effectué avec succès.', 20, finalY + 15);
+
+  // ====== TELECHARGEMENT ======
+  doc.save(`facture_${facture.numeroFacture}.pdf`);
+}
 
 
 
