@@ -1,0 +1,39 @@
+<div [class.show-chatbot]="showChat">
+  <button class="chatbot-toggler" (click)="toggleChat()">
+    <span *ngIf="!showChat" class="material-symbols-outlined">chat_mode</span>
+    <span *ngIf="showChat" class="material-symbols-outlined">close</span>
+  </button>
+
+  <div class="chatbot">
+    <header>
+      <h2>Assistant IA</h2>
+      <span class="close-btn material-symbols-outlined" (click)="toggleChat()">close</span>
+    </header>
+
+    <ul class="chatbox" #chatbox>
+      <li class="chat incoming">
+        <span class="material-symbols-outlined">smart_toy</span>
+        <p>Bonjour 👋<br>Comment puis-je vous aider aujourd'hui ?</p>
+      </li>
+
+      <li *ngFor="let msg of messages" class="chat" [ngClass]="msg.type">
+        <span *ngIf="msg.type === 'incoming'" class="material-symbols-outlined">smart_toy</span>
+        <p [class.error]="msg.isError">{{ msg.text }}</p>
+      </li>
+
+      <li *ngIf="isLoading" class="chat incoming">
+        <span class="material-symbols-outlined">smart_toy</span>
+        <p>En train d'écrire...</p>
+      </li>
+    </ul>
+
+    <div class="chat-input">
+      <textarea placeholder="Entrez un message..." spellcheck="false" [(ngModel)]="userMessage"
+        (keydown.enter)="handleEnter($event)" required></textarea>
+      <span id="send-btn" class="material-symbols-outlined" (click)="sendMessage()">send</span>
+    </div>
+  </div>
+  <!-- Import Google Fonts Icons if not already imported in index.html -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+</div>

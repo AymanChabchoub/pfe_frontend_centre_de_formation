@@ -20,6 +20,7 @@ import { ListeSessionFormationByFormationIdComponent } from 'src/components/sess
 import { FaceLoginComponent } from 'src/components/face-login/face-login.component';
 import { SessionFormationListComponent } from 'src/components/session_formation/session-formation-list/session-formation-list.component';
 import { ListeInscriptionBySessionIdComponent } from 'src/components/inscription/liste-inscription-by-session-id/liste-inscription-by-session-id.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 
 
@@ -39,13 +40,13 @@ import { ListeInscriptionBySessionIdComponent } from 'src/components/inscription
     ListeSessionFormationByFormationIdComponent,
     FaceLoginComponent,
     SessionFormationListComponent,
-    ListeInscriptionBySessionIdComponent
-    
+    ListeInscriptionBySessionIdComponent,
+    ChatbotComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,  
+    FormsModule,
     HttpClientModule,
     NgChartsModule,
     ReactiveFormsModule
