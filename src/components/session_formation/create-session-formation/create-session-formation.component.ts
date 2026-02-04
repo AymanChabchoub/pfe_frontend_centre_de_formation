@@ -15,6 +15,8 @@ export class CreateSessionFormationComponent {
   description: string = '';
   dateDebut!: string;
   dateFin!: string;
+  heureDebut!: string;
+  heureFin!: string;
 
   selectedSpecialite: string = '';
   formateurId!: number;
@@ -36,7 +38,7 @@ export class CreateSessionFormationComponent {
     private formationService: FormationService,
     private sessionService: SessionFormationService,
     private salleService: SalleService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadSpecialites();
@@ -93,7 +95,8 @@ export class CreateSessionFormationComponent {
 
   onSubmit(): void {
     if (!this.titre || !this.description || !this.dateDebut || !this.dateFin ||
-        !this.selectedSpecialite || !this.formateurId || !this.formationId || !this.salleId) {
+      !this.heureDebut || !this.heureFin ||
+      !this.selectedSpecialite || !this.formateurId || !this.formationId || !this.salleId) {
       this.errorMessage = 'Veuillez remplir tous les champs.';
       return;
     }
@@ -103,6 +106,8 @@ export class CreateSessionFormationComponent {
       description: this.description,
       dateDebut: this.dateDebut,
       dateFin: this.dateFin,
+      heureDebut: this.heureDebut,
+      heureFin: this.heureFin,
       formateurId: this.formateurId,
       formationId: this.formationId,
       salleId: this.salleId,
@@ -130,6 +135,8 @@ export class CreateSessionFormationComponent {
     this.description = '';
     this.dateDebut = '';
     this.dateFin = '';
+    this.heureDebut = '';
+    this.heureFin = '';
     this.selectedSpecialite = '';
     this.formateurId = 0;
     this.formationId = 0;

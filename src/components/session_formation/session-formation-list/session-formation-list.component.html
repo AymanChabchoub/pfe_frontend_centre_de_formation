@@ -18,6 +18,8 @@
               <th>Description</th>
               <th>Date début</th>
               <th>Date fin</th>
+              <th>Heure début</th>
+              <th>Heure fin</th>
               <th>Salle</th>
               <th>Formateur</th>
               <th>Inscriptions</th>
@@ -32,26 +34,29 @@
               <td>{{ session.description }}</td>
               <td>{{ session.dateDebut | date:'dd/MM/yyyy' }}</td>
               <td>{{ session.dateFin | date:'dd/MM/yyyy' }}</td>
+              <td>{{ session.heureDebut || '—' }}</td>
+              <td>{{ session.heureFin || '—' }}</td>
               <td>{{ session.salleId }}</td>
               <td>{{ session.formateurId }}</td>
-              <td><button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">Afficher inscriptions</button></td>
+              <td><button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">Afficher
+                  inscriptions</button></td>
 
             </tr>
 
             <tr *ngIf="sessions.length === 0 && !loading">
-              <td colspan="7" class="text-center text-muted">
+              <td colspan="10" class="text-center text-muted">
                 Aucune session trouvée
               </td>
             </tr>
 
             <tr *ngIf="loading">
-              <td colspan="7" class="text-center text-info">
+              <td colspan="10" class="text-center text-info">
                 Chargement des sessions...
               </td>
             </tr>
 
             <tr *ngIf="errorMessage">
-              <td colspan="7" class="text-center text-danger">
+              <td colspan="10" class="text-center text-danger">
                 {{ errorMessage }}
               </td>
             </tr>

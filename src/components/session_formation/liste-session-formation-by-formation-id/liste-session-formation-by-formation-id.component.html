@@ -26,6 +26,8 @@
               <th>Description</th>
               <th>Date début</th>
               <th>Date fin</th>
+              <th>Heure début</th>
+              <th>Heure fin</th>
               <th>Formateur</th>
               <th>Salle</th>
               <th>Adresse</th>
@@ -40,24 +42,24 @@
               <td>{{ s.description }}</td>
               <td>{{ s.dateDebut }}</td>
               <td>{{ s.dateFin }}</td>
+              <td>{{ s.heureDebut || '—' }}</td>
+              <td>{{ s.heureFin || '—' }}</td>
               <td>{{ s.formateurNom || '—' }}</td>
               <td>{{ s.salleNom || '—' }}</td>
               <td>{{ s.salleAdresse || '—' }}</td>
 
               <td>
-                <button class="btn btn-sm btn-success"
-                        (click)="inscrire(s.id)">
+                <button class="btn btn-sm btn-success" (click)="inscrire(s.id)">
                   S'inscrire
                 </button>
-                <button class="btn btn-sm btn-warning"
-                        (click)="createPayment(s)">
+                <button class="btn btn-sm btn-warning" (click)="createPayment(s)">
                   Create payment
                 </button>
               </td>
             </tr>
 
             <tr *ngIf="sessions.length === 0">
-              <td colspan="9" class="text-center text-muted">
+              <td colspan="11" class="text-center text-muted">
                 Aucune session trouvée
               </td>
             </tr>
