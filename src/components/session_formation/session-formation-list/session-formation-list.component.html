@@ -22,7 +22,8 @@
               <th>Heure fin</th>
               <th>Salle</th>
               <th>Formateur</th>
-              <th>Inscriptions</th>
+              <th>Nb Inscriptions</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -38,25 +39,29 @@
               <td>{{ session.heureFin || '—' }}</td>
               <td>{{ session.salleId }}</td>
               <td>{{ session.formateurId }}</td>
-              <td><button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">Afficher
-                  inscriptions</button></td>
+              <td>
+                <span class="badge bg-info">{{ session.inscriptionCount ?? '...' }}</span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">Afficher Les Inscriptions</button>
+              </td>
 
             </tr>
 
             <tr *ngIf="sessions.length === 0 && !loading">
-              <td colspan="10" class="text-center text-muted">
+              <td colspan="11" class="text-center text-muted">
                 Aucune session trouvée
               </td>
             </tr>
 
             <tr *ngIf="loading">
-              <td colspan="10" class="text-center text-info">
+              <td colspan="11" class="text-center text-info">
                 Chargement des sessions...
               </td>
             </tr>
 
             <tr *ngIf="errorMessage">
-              <td colspan="10" class="text-center text-danger">
+              <td colspan="11" class="text-center text-danger">
                 {{ errorMessage }}
               </td>
             </tr>
