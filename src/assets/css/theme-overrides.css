@@ -1,0 +1,319 @@
+/* ============================================
+   Theme Overrides - Bootstrap & Component Styling
+   ============================================ */
+
+/* Body */
+body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-secondary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Layout ===== */
+
+/* Sidebar */
+.sidebar {
+    background: var(--bg-sidebar) !important;
+    transition: background-color 0.3s ease;
+}
+
+/* Main Content Area */
+.content {
+    background: var(--bg-main) !important;
+    transition: background-color 0.3s ease;
+}
+
+/* ===== Typography ===== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    color: var(--text-primary) !important;
+}
+
+p,
+span,
+div {
+    transition: color 0.3s ease;
+}
+
+/* ===== Bootstrap Background Classes ===== */
+
+.bg-secondary {
+    background-color: var(--bg-card) !important;
+    transition: background-color 0.3s ease;
+}
+
+.bg-dark {
+    background-color: var(--bg-main) !important;
+}
+
+/* ===== Text Colors ===== */
+
+.text-primary {
+    color: var(--accent-primary) !important;
+}
+
+.text-white {
+    color: var(--text-primary) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* ===== Buttons ===== */
+
+.btn-primary {
+    background-color: var(--accent-primary) !important;
+    border-color: var(--accent-primary) !important;
+    color: var(--text-on-primary) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--accent-primary-hover) !important;
+    border-color: var(--accent-primary-hover) !important;
+}
+
+.btn-primary:active {
+    background-color: var(--accent-primary-focus) !important;
+    border-color: var(--accent-primary-focus) !important;
+}
+
+.btn-info {
+    color: var(--text-on-primary) !important;
+}
+
+/* ===== Forms ===== */
+
+.form-control,
+.form-select {
+    background-color: var(--bg-input) !important;
+    border-color: var(--border-input) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--border-input-focus) !important;
+    box-shadow: 0 0 0 0.25rem var(--focus-shadow) !important;
+    background-color: var(--bg-input) !important;
+}
+
+.form-floating>label {
+    color: var(--text-secondary) !important;
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label {
+    color: var(--text-secondary) !important;
+}
+
+/* File input */
+.form-control[type="file"] {
+    color: var(--text-secondary) !important;
+}
+
+/* ===== Tables ===== */
+
+.table {
+    color: var(--text-secondary) !important;
+    border-color: var(--border-table) !important;
+}
+
+.table thead tr {
+    background-color: var(--bg-table-header) !important;
+}
+
+.table thead th {
+    border-color: var(--border-table) !important;
+    color: var(--text-primary) !important;
+}
+
+.table tbody td {
+    border-color: var(--border-table) !important;
+}
+
+.table-bordered {
+    border-color: var(--border-table) !important;
+}
+
+.table-bordered> :not(caption)>*>* {
+    border-color: var(--border-table) !important;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: var(--bg-hover) !important;
+}
+
+/* ===== Navigation ===== */
+
+/* Top Navbar */
+.navbar {
+    background-color: var(--bg-header) !important;
+    transition: background-color 0.3s ease;
+}
+
+/* Sidebar Navigation */
+.sidebar .navbar .navbar-nav .nav-link {
+    color: var(--text-secondary) !important;
+    border-left-color: var(--bg-sidebar) !important;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
+    color: var(--accent-primary) !important;
+    background: var(--bg-main) !important;
+    border-left-color: var(--accent-primary) !important;
+}
+
+.sidebar .navbar .navbar-nav .nav-link i {
+    background: var(--icon-bg) !important;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover i,
+.sidebar .navbar .navbar-nav .nav-link.active i {
+    background: var(--bg-sidebar) !important;
+}
+
+/* Content Navbar */
+.content .navbar .navbar-nav .nav-link {
+    color: var(--text-secondary) !important;
+}
+
+.content .navbar .navbar-nav .nav-link:hover,
+.content .navbar .navbar-nav .nav-link.active {
+    color: var(--accent-primary) !important;
+}
+
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
+    background: var(--icon-bg) !important;
+}
+
+/* Search Input in Navbar */
+.content .navbar .form-control {
+    background-color: var(--bg-input) !important;
+    border-color: var(--border-input) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Dropdown */
+.dropdown-item {
+    color: var(--text-secondary) !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+.dropdown-menu {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-card) !important;
+}
+
+/* ===== Cards ===== */
+
+.card {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-card) !important;
+}
+
+/* ===== Borders ===== */
+
+.border {
+    border-color: var(--border-color) !important;
+}
+
+.rounded {
+    border-color: var(--border-card) !important;
+}
+
+/* ===== Links ===== */
+
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-hover);
+}
+
+/* ===== Theme Toggle Button ===== */
+
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--bg-hover);
+    color: var(--accent-primary);
+}
+
+.theme-toggle-btn i {
+    font-size: 1.2rem;
+}
+
+/* ===== Light Mode Specific Adjustments ===== */
+
+[data-theme="light"] .navbar-dark .navbar-brand,
+[data-theme="light"] .navbar-dark .navbar-nav .nav-link {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus {
+    color: var(--accent-primary) !important;
+}
+
+[data-theme="light"] .bg-secondary {
+    box-shadow: var(--shadow-sm);
+}
+
+/* Light mode cards with subtle border */
+[data-theme="light"] .bg-secondary.rounded {
+    border: 1px solid var(--border-card);
+}
+
+/* Adjust text colors in cards for light mode */
+[data-theme="light"] .bg-secondary h5,
+[data-theme="light"] .bg-secondary h6 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .bg-secondary h3 {
+    color: var(--text-primary) !important;
+}
+
+/* Chart label colors for light mode */
+[data-theme="light"] canvas {
+    filter: none;
+}

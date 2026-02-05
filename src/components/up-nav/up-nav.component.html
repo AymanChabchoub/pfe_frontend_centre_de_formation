@@ -10,19 +10,22 @@
         <input class="form-control bg-dark border-0" type="search" placeholder="Search">
     </form>
     <div class="navbar-nav align-items-center ms-auto">
-
-
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle-btn me-3" (click)="toggleTheme()"
+            [title]="isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+            <i class="fa" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
 
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
- 
+
                 <span class="d-none d-lg-inline-flex">{{ currentUser?.firstName }}</span>
 
             </a>
             <a href="#" class="dropdown-item" (click)="logout()">Log Out</a>
 
 
-            
+
         </div>
     </div>
 </nav>

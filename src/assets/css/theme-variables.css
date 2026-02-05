@@ -1,0 +1,118 @@
+/* ============================================
+   Theme Variables - Dark/Light Mode Support
+   ============================================ */
+
+/* Dark Mode - Default Theme */
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-main: #000000;
+  --bg-sidebar: #191C24;
+  --bg-card: #191C24;
+  --bg-header: #191C24;
+  --bg-table-header: #191C24;
+  --bg-input: #000000;
+  --bg-hover: #2d2d2d;
+  
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #6C7293;
+  --text-disabled: #4a4a4a;
+  --text-muted: #6c757d;
+  --text-on-primary: #FFFFFF;
+  
+  /* Accent Colors - Red Theme */
+  --accent-primary: #EB1616;
+  --accent-primary-hover: #c81313;
+  --accent-primary-focus: #a01010;
+  --accent-info: #0dcaf0;
+  --accent-success: #198754;
+  --accent-warning: #ffc107;
+  --accent-danger: #dc3545;
+  
+  /* Borders */
+  --border-color: #2d2d2d;
+  --border-card: #2d2d2d;
+  --border-table: #2d2d2d;
+  --border-input: #000000;
+  --border-input-focus: #EB1616;
+  
+  /* Charts */
+  --chart-primary: #EB1616;
+  --chart-secondary: #2563EB;
+  --chart-tertiary: #059669;
+  --chart-grid: #2d2d2d;
+  --chart-text: #6C7293;
+  
+  /* Shadows */
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+  
+  /* Focus Ring */
+  --focus-shadow: rgba(235, 22, 22, 0.25);
+  
+  /* Navbar Icon Background */
+  --icon-bg: #000000;
+  
+  /* Link Colors */
+  --link-color: #EB1616;
+  --link-hover: #c81313;
+}
+
+/* Light Mode Theme */
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg-main: #F5F7FA;
+  --bg-sidebar: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-header: #F9FAFB;
+  --bg-table-header: #EEF1F5;
+  --bg-input: #FFFFFF;
+  --bg-hover: #E5E7EB;
+  
+  /* Text Colors */
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-disabled: #9CA3AF;
+  --text-muted: #9CA3AF;
+  --text-on-primary: #FFFFFF;
+  
+  /* Accent Colors - Red Theme (slightly adjusted for light backgrounds) */
+  --accent-primary: #DC2626;
+  --accent-primary-hover: #B91C1C;
+  --accent-primary-focus: #991B1B;
+  --accent-info: #0dcaf0;
+  --accent-success: #059669;
+  --accent-warning: #d97706;
+  --accent-danger: #dc2626;
+  
+  /* Borders */
+  --border-color: #E5E7EB;
+  --border-card: #E5E7EB;
+  --border-table: #E5E7EB;
+  --border-input: #D1D5DB;
+  --border-input-focus: #DC2626;
+  
+  /* Charts */
+  --chart-primary: #DC2626;
+  --chart-secondary: #2563EB;
+  --chart-tertiary: #059669;
+  --chart-grid: #E5E7EB;
+  --chart-text: #6B7280;
+  
+  /* Shadows */
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  
+  /* Focus Ring */
+  --focus-shadow: rgba(220, 38, 38, 0.15);
+  
+  /* Navbar Icon Background */
+  --icon-bg: #F5F7FA;
+  
+  /* Link Colors */
+  --link-color: #DC2626;
+  --link-hover: #B91C1C;
+}
