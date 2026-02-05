@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataset, ChartOptions } from 'chart.js';
 import { AuthService } from 'src/services/auth/auth.service';
+import { FactureService } from 'src/services/facture/facture.service';
 import { FormationService } from 'src/services/formation/formation.service';
 import { InscriptionService } from 'src/services/inscription/inscription.service';
 import { PaiementService } from 'src/services/payment/payment.service';
@@ -40,7 +41,10 @@ export class DashboardComponent implements OnInit {
     private formationService: FormationService,
     private inscriptionService: InscriptionService,
     private sessionService: SessionFormationService,
-    private paiementService: PaiementService
+    private paiementService: PaiementService,
+    private factureService: FactureService,
+    private sessionFormationService: SessionFormationService,
+    
   ) {}
 
   ngOnInit(): void {
@@ -87,16 +91,40 @@ export class DashboardComponent implements OnInit {
       const map: any = {};
 
       paiements.forEach(p => {
-        map[p.formationId] = (map[p.formationId] || 0) + p.montant;
-        console.log("Paiement formationId:", p.formationId, "Montant:", p.montant);
-      });
+        this.factureService.getById(p.factureId).subscribe(facture => {
 
-      Object.keys(map).forEach(id => {
-        this.formationService.getById(+id).subscribe(f => {
-          this.chartLabelsRentabilite.push(f.titre);
-          (this.chartDataRentabilite[0].data as number[]).push(map[id]);
+          this.sessionFormationService.getById(facture.sessionId).subscribe(session => {
+
+            this.formationService.getById(session.formationId).subscribe(formation => {
+
+              console.log("FORMATION UTILISÉE :", formation);
+
+              if (formation) {
+                const id = formation.id;
+                const titre = formation.titre;
+
+                if (!map[id]) {
+                  map[id] = { titre: titre, total: 0 };
+                }
+
+                map[id].total += p.montant;
+
+                // 🔥 MAJ DU GRAPH APRÈS CHAQUE AJOUT
+                this.chartLabelsRentabilite = Object.values(map).map((f: any) => f.titre);
+                this.chartDataRentabilite = [
+                  { data: Object.values(map).map((f: any) => f.total), label: 'Revenus (DT)' }
+                ];
+              }
+
+            });
+
+          });
+
         });
       });
     });
   }
+
+
+
 }

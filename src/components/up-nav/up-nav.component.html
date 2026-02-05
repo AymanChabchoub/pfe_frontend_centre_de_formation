@@ -16,17 +16,13 @@
             <i class="fa" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
 
-        <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <div class="nav-item">
+                <button class="nav-link btn btn-link logout-btn" (click)="logout()">
+                    <i class="bi bi-box-arrow-right me-2"></i>
+                    <span class="d-none d-lg-inline">Log Out</span>
+                </button>
+            </div>
 
-                <span class="d-none d-lg-inline-flex">{{ currentUser?.firstName }}</span>
-
-            </a>
-            <a href="#" class="dropdown-item" (click)="logout()">Log Out</a>
-
-
-
-        </div>
     </div>
 </nav>
 <!-- Navbar End -->
