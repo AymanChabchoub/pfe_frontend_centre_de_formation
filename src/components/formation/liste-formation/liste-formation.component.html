@@ -7,6 +7,9 @@
 
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h6 class="mb-0">Liste des Formations</h6>
+        <button class="btn btn-primary btn-sm" (click)="goToAssignFormateur()">
+          <i class="fa fa-user-plus me-2"></i>Assigner Formateur
+        </button>
       </div>
 
       <div class="table-responsive">
@@ -33,17 +36,16 @@
               <td>{{ formation.formateurNom }}</td>
 
               <td>
-                <button
-                  class="btn btn-sm btn-info"
-                  (click)="goToSessions(formation.id)">
+                <button class="btn btn-sm btn-info" (click)="goToSessions(formation.id)">
                   Afficher sessions
                 </button>
               </td>
 
+     
             </tr>
 
             <tr *ngIf="formations.length === 0">
-              <td colspan="7" class="text-center text-muted">
+              <td colspan="8" class="text-center text-muted">
                 Aucune formation trouvée
               </td>
             </tr>

@@ -1,11 +1,8 @@
 <body>
   <div class="container-fluid position-relative d-flex p-0">
     <!-- Spinner Start -->
-    <div
-      *ngIf="isLoading"
-      id="spinner"
-      class="bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
-    >
+    <div *ngIf="isLoading" id="spinner"
+      class="bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
       <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -25,18 +22,19 @@
             </div>
             <!-- Messages -->
             <div *ngIf="successMessage" class="alert alert-success">
-                {{ successMessage }}
+              {{ successMessage }}
             </div>
 
             <div *ngIf="errorMessage" class="alert alert-danger">
-                {{ errorMessage }}
+              {{ errorMessage }}
             </div>
 
             <form (ngSubmit)="onSubmit()">
-              
+
               <!-- Titre Formation -->
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="titreFormation" [(ngModel)]="titre" name="titre" placeholder="Titre Formation ..." />
+                <input type="text" class="form-control" id="titreFormation" [(ngModel)]="titre" name="titre"
+                  placeholder="Titre Formation ..." />
                 <label for="titreFormation">Titre</label>
                 <div *ngIf="!titre" class="text-danger">
                   Le titre est requis.
@@ -45,7 +43,8 @@
 
               <!-- Description -->
               <div class="form-floating mb-3">
-                <textarea class="form-control" id="description" [(ngModel)]="description" name="description" placeholder="Description ..."></textarea>
+                <textarea class="form-control" id="description" [(ngModel)]="description" name="description"
+                  placeholder="Description ..."></textarea>
                 <label for="description">Description</label>
                 <div *ngIf="!description" class="text-danger">
                   La description est requise.
@@ -54,7 +53,8 @@
 
               <!-- Durée -->
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="dureeHeures" [(ngModel)]="dureeHeures" name="dureeHeures" placeholder="Durée (en heures)" />
+                <input type="number" class="form-control" id="dureeHeures" [(ngModel)]="dureeHeures" name="dureeHeures"
+                  placeholder="Durée (en heures)" />
                 <label for="dureeHeures">Durée (en heures)</label>
                 <div *ngIf="!dureeHeures || dureeHeures <= 0" class="text-danger">
                   Durée est requise et doit être supérieure à 0.
@@ -63,32 +63,18 @@
 
               <!-- Prix -->
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="prix" [(ngModel)]="prix" name="prix" placeholder="Prix de la formation" />
+                <input type="number" class="form-control" id="prix" [(ngModel)]="prix" name="prix"
+                  placeholder="Prix de la formation" />
                 <label for="prix">Prix</label>
                 <div *ngIf="!prix || prix < 0" class="text-danger">
                   Le prix est requis et doit être supérieur ou égal à 0.
                 </div>
               </div>
 
- 
-
-
-              <!-- Liste des Formateurs -->
-              <div class="form-floating mb-3" *ngIf="formateurs.length > 0">
-                <select class="form-select" id="formateur" [(ngModel)]="formateurId" name="formateurId">
-                  <option value="" disabled selected>-- Sélectionnez un formateur --</option>
-                  <option *ngFor="let f of formateurs" [value]="f.id">{{ f.nom }}</option>
-                </select>
-                <label for="formateur">Formateur</label>
-                <div *ngIf="!formateurId" class="text-danger">
-                  Le formateur est requis.
-                </div>
-              </div>
-
               <!-- Bouton Create -->
               <button type="submit" class="btn btn-primary py-3 w-100 mb-4"
-                [disabled]="!titre || !description || !dureeHeures || dureeHeures <= 0 || !prix || prix < 0  || !formateurId">
-                Create
+                [disabled]="!titre || !description || !dureeHeures || dureeHeures <= 0 || !prix || prix < 0">
+                Créer
               </button>
             </form>
           </div>

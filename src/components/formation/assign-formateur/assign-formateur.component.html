@@ -1,0 +1,77 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row h-100 align-items-center justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <a href="javascript:void(0)">
+                            <h3 class="text-primary"><i class="fa fa-user-plus me-2"></i>Assigner</h3>
+                        </a>
+                        <h3>Formateur</h3>
+                    </div>
+
+                    <!-- Spinner -->
+                    <div *ngIf="isLoading" class="text-center mb-3">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div *ngIf="successMessage" class="alert alert-success">
+                        {{ successMessage }}
+                    </div>
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+
+                    <form (ngSubmit)="assignFormateur()">
+
+                        <!-- Liste des Formations -->
+                        <div class="form-floating mb-4">
+                            <select class="form-select" id="formation" [(ngModel)]="selectedFormationId"
+                                name="selectedFormationId">
+                                <option value="" disabled selected>-- Sélectionnez une formation --</option>
+                                <option *ngFor="let f of formations" [ngValue]="f.id">{{ f.titre }}</option>
+                            </select>
+                            <label for="formation">Formation</label>
+                            <div *ngIf="!selectedFormationId && errorMessage" class="text-danger mt-1">
+                                La formation est requise.
+                            </div>
+                        </div>
+
+                        <!-- Liste des Formateurs -->
+                        <div class="form-floating mb-4">
+                            <select class="form-select" id="formateur" [(ngModel)]="selectedFormateurId"
+                                name="selectedFormateurId">
+                                <option value="" disabled selected>-- Sélectionnez un formateur --</option>
+                                <option *ngFor="let f of formateurs" [ngValue]="f.id">{{ f.nom }} {{ f.prenom }}
+                                </option>
+                            </select>
+                            <label for="formateur">Formateur</label>
+                            <div *ngIf="!selectedFormateurId && errorMessage" class="text-danger mt-1">
+                                Le formateur est requis.
+                            </div>
+                        </div>
+
+                        <!-- Bouton Assigner -->
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-3"
+                            [disabled]="!selectedFormationId || !selectedFormateurId || isLoading">
+                            <i class="fa fa-check me-2"></i>Assigner
+                        </button>
+
+                        <!-- Bouton Retour -->
+                        <button type="button" class="btn btn-outline-light py-2 w-100" (click)="goToListeFormation()">
+                            <i class="fa fa-arrow-left me-2"></i>Retour à la liste
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

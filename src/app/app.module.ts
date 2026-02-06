@@ -18,6 +18,7 @@ import { CreateSessionFormationComponent } from 'src/components/session_formatio
 import { ListeFormationComponent } from 'src/components/formation/liste-formation/liste-formation.component';
 import { ListeSessionFormationByFormationIdComponent } from 'src/components/session_formation/liste-session-formation-by-formation-id/liste-session-formation-by-formation-id.component';
 import { FaceLoginComponent } from 'src/components/face-login/face-login.component';
+import { AssignFormateurComponent } from 'src/components/formation/assign-formateur/assign-formateur.component';
 import { SessionFormationListComponent } from 'src/components/session_formation/session-formation-list/session-formation-list.component';
 import { ListeInscriptionBySessionIdComponent } from 'src/components/inscription/liste-inscription-by-session-id/liste-inscription-by-session-id.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
@@ -41,7 +42,8 @@ import { ChatbotComponent } from './components/chatbot/chatbot.component';
     FaceLoginComponent,
     SessionFormationListComponent,
     ListeInscriptionBySessionIdComponent,
-    ChatbotComponent
+    ChatbotComponent,
+    AssignFormateurComponent
   ],
   imports: [
     BrowserModule,

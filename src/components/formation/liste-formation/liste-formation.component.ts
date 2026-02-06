@@ -10,7 +10,7 @@ import { FormationService } from 'src/services/formation/formation.service';
 })
 export class ListeFormationComponent implements OnInit {
 
-    formations: any[] = [];
+  formations: any[] = [];
   isLoading = false;
 
   constructor(
@@ -18,7 +18,7 @@ export class ListeFormationComponent implements OnInit {
     private authService: AuthService,
     private router: Router
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadFormations();
@@ -71,7 +71,10 @@ export class ListeFormationComponent implements OnInit {
     );
   }
   goToSessions(formationId: number): void {
-  this.router.navigate(['/sessions', formationId]);
-}
+    this.router.navigate(['/sessions', formationId]);
+  }
 
+  goToAssignFormateur(): void {
+    this.router.navigate(['/assign-formateur']);
+  }
 }
