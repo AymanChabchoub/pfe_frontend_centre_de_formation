@@ -9,7 +9,7 @@ export class PresenceService {
 
   private baseUrl = 'http://localhost:8080/api/presences';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 🔹 Créer une présence
   create(presence: any): Observable<any> {
@@ -36,13 +36,13 @@ export class PresenceService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
   // 👉 utilisé par QR et bouton
-pointage(inscriptionId: number) {
-  return this.http.post(
-    `http://localhost:8080/api/presences/pointage/${inscriptionId}`,
-    {},
-    { responseType: 'text' }
-  );
-}
+  pointage(inscriptionId: number) {
+    return this.http.post(
+      `http://localhost:8080/api/presences/pointage/${inscriptionId}`,
+      {},
+      { responseType: 'text' }
+    );
+  }
 
 
   generateQr(inscriptionId: number) {

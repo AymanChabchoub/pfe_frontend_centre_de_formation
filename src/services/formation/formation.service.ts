@@ -9,7 +9,7 @@ export class FormationService {
 
   private baseUrl = 'http://localhost:8080/api/formations';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 🔹 POST /api/formations
   ajouter(formation: any): Observable<any> {

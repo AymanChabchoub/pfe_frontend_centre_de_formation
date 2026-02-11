@@ -9,7 +9,7 @@ export class FactureService {
 
   private baseUrl = 'http://localhost:8080/api/factures';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // -------- CREATE --------
   create(facture: any): Observable<any> {

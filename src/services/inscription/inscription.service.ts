@@ -9,7 +9,7 @@ export class InscriptionService {
 
   private baseUrl = 'http://localhost:8080/api/inscriptions';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // -------- CREATE --------
   create(inscription: any): Observable<any> {
@@ -38,7 +38,7 @@ export class InscriptionService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
   marquerPayee(id: number): Observable<void> {
-  return this.http.put<void>(`${this.baseUrl}/${id}/payer`, {});
+    return this.http.put<void>(`${this.baseUrl}/${id}/payer`, {});
   }
   update(id: number, data: any): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${id}`, data);

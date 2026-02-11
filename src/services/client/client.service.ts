@@ -8,7 +8,7 @@ import { Client } from '../../models/Client'; // crée un model Client correspon
 })
 export class ClientService {
 
-private apiUrl = 'http://localhost:8080/api/clients';
+  private apiUrl = 'http://localhost:8080/api/clients';
 
   constructor(private http: HttpClient) { }
 

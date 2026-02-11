@@ -9,7 +9,7 @@ export class SalleService {
 
   private baseUrl = 'http://localhost:8080/api/salles';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // -------- CREATE --------
   create(salle: any): Observable<any> {

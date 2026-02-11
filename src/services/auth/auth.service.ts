@@ -11,13 +11,13 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:8080/api/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
   getUserById(id: number): Observable<User> {
-  return this.http.get<User>(`${this.baseUrl}/${id}`);
+    return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
 
   // -------- REGISTER --------
@@ -73,19 +73,19 @@ export class AuthService {
   }
 
   // 🔹 Récupérer les formateurs par spécialité
-    getFormateursBySpecialite(specialite: string) : Observable<User[]> {
-      return this.http.get<User[]>(`${this.baseUrl}/formateurs/specialite/${specialite}`);
-    }
+  getFormateursBySpecialite(specialite: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/formateurs/specialite/${specialite}`);
+  }
 
-    faceLogin(image: File) {
-      const formData = new FormData();
-      formData.append('image', image);
+  faceLogin(image: File) {
+    const formData = new FormData();
+    formData.append('image', image);
 
-      return this.http.post<AuthResponse>(
-        'http://localhost:8080/api/users/face-login',
-        formData
-      );
-    }
+    return this.http.post<AuthResponse>(
+      'http://localhost:8080/api/users/face-login',
+      formData
+    );
+  }
 
 
 

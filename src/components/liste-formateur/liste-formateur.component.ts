@@ -12,7 +12,7 @@ export class ListeFormateurComponent implements OnInit {
   users: User[] = [];
   baseCvUrl: string = 'http://localhost:8080/';        // Pour les CV
 
-  constructor(private userService: AuthService) {}
+  constructor(private userService: AuthService) { }
 
   ngOnInit(): void {
     this.getFormateurs();
