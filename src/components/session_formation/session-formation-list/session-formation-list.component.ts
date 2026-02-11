@@ -1,20 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionFormationService } from 'src/services/session_formation/sessionformation.service';
 import { InscriptionService } from 'src/services/inscription/inscription.service';
 import { forkJoin } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-session-formation-list',
   templateUrl: './session-formation-list.component.html',
   styleUrls: ['./session-formation-list.component.css']
 })
-export class SessionFormationListComponent implements OnInit {
+export class SessionFormationListComponent implements OnInit, AfterViewInit {
 
-  sessions: any[] = [];
+  displayedColumns: string[] = ['index', 'titre', 'description', 'dateDebut', 'dateFin',
+    'heureDebut', 'heureFin', 'salle', 'formateur',
+    'inscriptionCount', 'action'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   formationId!: number;
   loading = false;
   errorMessage = '';
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private sessionService: SessionFormationService,
@@ -35,12 +44,17 @@ export class SessionFormationListComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   // 🔹 Toutes les sessions
   loadAllSessions(): void {
     this.loading = true;
     this.sessionService.getAll().subscribe({
       next: (data) => {
-        this.sessions = data;
+        this.dataSource.data = data;
         this.loadInscriptionCounts();
         this.loading = false;
       },
@@ -56,7 +70,7 @@ export class SessionFormationListComponent implements OnInit {
     this.loading = true;
     this.sessionService.getByFormationId(this.formationId).subscribe({
       next: (data) => {
-        this.sessions = data;
+        this.dataSource.data = data;
         this.loadInscriptionCounts();
         this.loading = false;
       },
@@ -69,23 +83,36 @@ export class SessionFormationListComponent implements OnInit {
 
   // 🔹 Charger le nombre d'inscriptions pour chaque session
   loadInscriptionCounts(): void {
-    if (this.sessions.length === 0) return;
+    if (this.dataSource.data.length === 0) return;
 
-    const requests = this.sessions.map(session =>
+    const requests = this.dataSource.data.map(session =>
       this.inscriptionService.getBySession(session.id)
     );
 
     forkJoin(requests).subscribe({
       next: (results) => {
         results.forEach((inscriptions, index) => {
-          this.sessions[index].inscriptionCount = inscriptions.length;
+          this.dataSource.data[index].inscriptionCount = inscriptions.length;
         });
+        // Trigger table update
+        this.dataSource.data = [...this.dataSource.data];
       },
       error: () => {
         // En cas d'erreur, mettre 0 par défaut
-        this.sessions.forEach(session => session.inscriptionCount = 0);
+        this.dataSource.data.forEach(session => session.inscriptionCount = 0);
+        this.dataSource.data = [...this.dataSource.data];
       }
     });
+  }
+
+  // 🔹 Filtrage / Recherche
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   goToInscriptions(sessionId: number): void {

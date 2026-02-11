@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth/auth.service';
 import { ThemeService, Theme } from 'src/services/theme/theme.service';
 
@@ -10,7 +11,8 @@ import { ThemeService, Theme } from 'src/services/theme/theme.service';
 export class UpNavComponent implements OnInit {
   constructor(
     private userService: AuthService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private router: Router
   ) { }
 
   currentUser: any = null;
@@ -28,6 +30,7 @@ export class UpNavComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
+    this.router.navigate(['/login']);
   }
 
   toggleTheme(): void {

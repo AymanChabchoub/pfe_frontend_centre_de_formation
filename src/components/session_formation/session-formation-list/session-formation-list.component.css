@@ -1,0 +1,30 @@
+/* Styles pour Material Table */
+table {
+    width: 100%;
+}
+
+.mat-elevation-z8 {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Alignement du champ de recherche */
+mat-form-field {
+    margin-right: 1rem;
+}
+
+/* Style des badges */
+.badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Style pour les cellules de la table Material */
+.mat-cell,
+.mat-header-cell {
+    padding: 8px !important;
+}
+
+/* Styles pour le paginator */
+::ng-deep .mat-paginator {
+    background-color: transparent !important;
+}

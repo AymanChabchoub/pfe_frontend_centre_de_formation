@@ -5,70 +5,124 @@
   <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
 
+      <!-- En-tête avec recherche -->
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h6 class="mb-0">Liste des Sessions de Formation</h6>
+        <mat-form-field>
+          <mat-label>Filtrer</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Titre ou description">
+        </mat-form-field>
       </div>
 
+      <!-- Tableau Material -->
       <div class="table-responsive">
-        <table class="table text-start align-middle table-bordered table-hover mb-0">
-          <thead>
-            <tr class="text-white">
-              <th>#</th>
-              <th>Titre</th>
-              <th>Description</th>
-              <th>Date début</th>
-              <th>Date fin</th>
-              <th>Heure début</th>
-              <th>Heure fin</th>
-              <th>Salle</th>
-              <th>Formateur</th>
-              <th>Nb Inscriptions</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table">
 
-          <tbody>
+          <!-- Colonne Index -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let session; let i = index">
+              {{ (paginator?.pageIndex || 0) * (paginator?.pageSize || 10) + i + 1 }}
+            </td>
+          </ng-container>
 
-            <tr *ngFor="let session of sessions; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ session.titre }}</td>
-              <td>{{ session.description }}</td>
-              <td>{{ session.dateDebut | date:'dd/MM/yyyy' }}</td>
-              <td>{{ session.dateFin | date:'dd/MM/yyyy' }}</td>
-              <td>{{ session.heureDebut || '—' }}</td>
-              <td>{{ session.heureFin || '—' }}</td>
-              <td>{{ session.salleId }}</td>
-              <td>{{ session.formateurId }}</td>
-              <td>
-                <span class="badge bg-info">{{ session.inscriptionCount ?? '...' }}</span>
-              </td>
-              <td>
-                <button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">Afficher Les Inscriptions</button>
-              </td>
+          <!-- Colonne Titre -->
+          <ng-container matColumnDef="titre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Titre </th>
+            <td mat-cell *matCellDef="let session"> {{ session.titre }} </td>
+          </ng-container>
 
-            </tr>
+          <!-- Colonne Description -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+            <td mat-cell *matCellDef="let session"> {{ session.description }} </td>
+          </ng-container>
 
-            <tr *ngIf="sessions.length === 0 && !loading">
-              <td colspan="11" class="text-center text-muted">
-                Aucune session trouvée
-              </td>
-            </tr>
+          <!-- Colonne Date Début -->
+          <ng-container matColumnDef="dateDebut">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date début </th>
+            <td mat-cell *matCellDef="let session">
+              {{ session.dateDebut | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
 
-            <tr *ngIf="loading">
-              <td colspan="11" class="text-center text-info">
-                Chargement des sessions...
-              </td>
-            </tr>
+          <!-- Colonne Date Fin -->
+          <ng-container matColumnDef="dateFin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date fin </th>
+            <td mat-cell *matCellDef="let session">
+              {{ session.dateFin | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
 
-            <tr *ngIf="errorMessage">
-              <td colspan="11" class="text-center text-danger">
-                {{ errorMessage }}
-              </td>
-            </tr>
+          <!-- Colonne Heure Début -->
+          <ng-container matColumnDef="heureDebut">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Heure début </th>
+            <td mat-cell *matCellDef="let session"> {{ session.heureDebut || '—' }} </td>
+          </ng-container>
 
-          </tbody>
+          <!-- Colonne Heure Fin -->
+          <ng-container matColumnDef="heureFin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Heure fin </th>
+            <td mat-cell *matCellDef="let session"> {{ session.heureFin || '—' }} </td>
+          </ng-container>
+
+          <!-- Colonne Salle -->
+          <ng-container matColumnDef="salle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Salle </th>
+            <td mat-cell *matCellDef="let session"> {{ session.salleId }} </td>
+          </ng-container>
+
+          <!-- Colonne Formateur -->
+          <ng-container matColumnDef="formateur">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Formateur </th>
+            <td mat-cell *matCellDef="let session"> {{ session.formateurId }} </td>
+          </ng-container>
+
+          <!-- Colonne Nb Inscriptions -->
+          <ng-container matColumnDef="inscriptionCount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nb Inscriptions </th>
+            <td mat-cell *matCellDef="let session">
+              <span class="badge bg-info">{{ session.inscriptionCount ?? '...' }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Colonne Actions -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let session">
+              <button class="btn btn-sm btn-warning" (click)="goToInscriptions(session.id)">
+                Afficher Les Inscriptions
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- En-têtes et lignes -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Aucune donnée -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length" class="text-center text-muted">
+              <ng-container *ngIf="!loading && !errorMessage">
+                Aucune session correspondante
+              </ng-container>
+            </td>
+          </tr>
         </table>
       </div>
+
+      <!-- Messages de chargement et d'erreur -->
+      <div *ngIf="loading" class="text-center text-info mt-3">
+        Chargement des sessions...
+      </div>
+
+      <div *ngIf="errorMessage" class="text-center text-danger mt-3">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Pagination -->
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" aria-label="Sélectionner la page" showFirstLastButtons>
+      </mat-paginator>
 
     </div>
   </div>
