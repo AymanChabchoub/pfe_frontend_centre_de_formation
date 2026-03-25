@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InscriptionService } from 'src/services/inscription/inscription.service';
 import { PresenceService } from 'src/services/presence/presence.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-liste-inscription-by-session-id',
@@ -86,5 +88,47 @@ generateQr(inscription: any): void {
   });
 }
 
+  exportPDF(): void {
+    const doc = new jsPDF();
+
+    // Titre
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Liste des Apprenants Inscrits - Session #${this.sessionId}`, 14, 20);
+
+    // Date de génération
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Généré le : ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}`, 14, 28);
+
+    // Nombre d'inscrits
+    doc.text(`Nombre d'inscrits : ${this.inscriptions.length}`, 14, 34);
+
+    // Données du tableau
+    const body = this.inscriptions.map((insc, i) => [
+      i + 1,
+      `${insc.apprenant?.nom || ''} ${insc.apprenant?.prenom || ''}`,
+      insc.sessionFormation?.titre || '',
+      insc.dateInscription ? new Date(insc.dateInscription).toLocaleDateString('fr-FR') : '',
+      insc.payee ? 'Payée' : 'Non payée',
+      insc.present ? 'Présent' : 'Absent'
+    ]);
+
+    autoTable(doc, {
+      startY: 40,
+      head: [['#', 'Apprenant', 'Session', 'Date Inscription', 'Statut', 'Présence']],
+      body: body,
+      styles: { fontSize: 9, cellPadding: 3 },
+      headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [245, 245, 245] },
+      columnStyles: {
+        0: { cellWidth: 10, halign: 'center' },
+        4: { halign: 'center' },
+        5: { halign: 'center' }
+      }
+    });
+
+    doc.save(`inscriptions_session_${this.sessionId}.pdf`);
+  }
 
 }
