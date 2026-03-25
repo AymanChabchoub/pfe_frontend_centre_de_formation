@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SessionFormationService } from 'src/services/session_formation/sessionformation.service';
 import { AuthService } from 'src/services/auth/auth.service';
@@ -7,6 +7,9 @@ import { InscriptionService } from 'src/services/inscription/inscription.service
 import { PaiementService } from 'src/services/payment/payment.service';
 import { FactureService } from 'src/services/facture/facture.service';
 import { FormationService } from 'src/services/formation/formation.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -16,10 +19,13 @@ import autoTable from 'jspdf-autotable';
   templateUrl: './liste-session-formation-by-formation-id.component.html',
   styleUrls: ['./liste-session-formation-by-formation-id.component.css']
 })
-export class ListeSessionFormationByFormationIdComponent implements OnInit {
+export class ListeSessionFormationByFormationIdComponent implements OnInit, AfterViewInit {
+
+  displayedColumns: string[] = ['index', 'titre', 'description', 'dateDebut', 'dateFin',
+    'heureDebut', 'heureFin', 'formateur', 'salle', 'adresse', 'action'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
   formationId!: number;
-  sessions: any[] = [];
   isLoading = false;
   successMessage = '';
   errorMessage = '';
@@ -27,6 +33,9 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
   selectedSession:any;
 
   currentUserId!: undefined | number;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +45,7 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
     private inscriptionService: InscriptionService,
     private factureService: FactureService,
     private paiementService: PaiementService,
-    private formationService: FormationService // <-- injection du service
+    private formationService: FormationService
     
   ) {}
 
@@ -52,6 +61,21 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
 
     this.loadSessions();
   }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   getFormationById(formationId: number): void {
     this.formationService.getById(formationId).subscribe({
       next: formation => {
@@ -69,11 +93,11 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit {
 
     this.sessionService.getByFormationId(this.formationId).subscribe(
       res => {
-        this.sessions = res;
+        this.dataSource.data = res;
 
-        this.sessions.forEach(s => {
+        this.dataSource.data.forEach(s => {
           // Associer le prix de la formation
-          s.prix = s.formation?.prix || s.prix || 0; // fallback si rien n'existe
+          s.prix = s.formation?.prix || s.prix || 0;
           if (s.formateurId) {
             this.authService.getUserById(s.formateurId).subscribe(user => {
               s.formateurNom = user.nom + ' ' + user.prenom;

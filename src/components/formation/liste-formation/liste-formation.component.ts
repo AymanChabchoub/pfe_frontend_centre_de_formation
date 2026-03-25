@@ -1,27 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/services/auth/auth.service';
 import { FormationService } from 'src/services/formation/formation.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-liste-formation',
   templateUrl: './liste-formation.component.html',
   styleUrls: ['./liste-formation.component.css']
 })
-export class ListeFormationComponent implements OnInit {
+export class ListeFormationComponent implements OnInit, AfterViewInit {
 
-  formations: any[] = [];
+  displayedColumns: string[] = ['index', 'titre', 'description', 'dureeHeures', 'prix', 'formateur', 'sessions'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   isLoading = false;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private formationService: FormationService,
     private authService: AuthService,
     private router: Router
-
   ) { }
 
   ngOnInit(): void {
     this.loadFormations();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   loadFormations(): void {
@@ -29,10 +40,10 @@ export class ListeFormationComponent implements OnInit {
 
     this.formationService.getAll().subscribe(
       res => {
-        this.formations = res;
+        this.dataSource.data = res;
 
         // Pour chaque formation, charger le formateur
-        this.formations.forEach(f => {
+        this.dataSource.data.forEach(f => {
           if (f.formateurId) {
             this.authService.getUserById(f.formateurId).subscribe(
               user => {
@@ -56,6 +67,15 @@ export class ListeFormationComponent implements OnInit {
     );
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   deleteFormation(id: number): void {
     if (!confirm('Voulez-vous supprimer cette formation ?')) {
       return;
@@ -63,13 +83,14 @@ export class ListeFormationComponent implements OnInit {
 
     this.formationService.delete(id).subscribe(
       () => {
-        this.formations = this.formations.filter(f => f.id !== id);
+        this.dataSource.data = this.dataSource.data.filter(f => f.id !== id);
       },
       err => {
         console.error('Erreur suppression formation', err);
       }
     );
   }
+
   goToSessions(formationId: number): void {
     this.router.navigate(['/sessions', formationId]);
   }

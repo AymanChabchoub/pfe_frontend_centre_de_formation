@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { User } from 'src/models/User';
 import { AuthService } from 'src/services/auth/auth.service';
-
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-liste-formateur',
   templateUrl: './liste-formateur.component.html',
   styleUrls: ['./liste-formateur.component.css']
 })
-export class ListeFormateurComponent implements OnInit {
-  users: User[] = [];
-  baseCvUrl: string = 'http://localhost:8080/';        // Pour les CV
+export class ListeFormateurComponent implements OnInit, AfterViewInit {
+
+  displayedColumns: string[] = ['index', 'nom', 'email', 'cv'];
+  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
+  baseCvUrl: string = 'http://localhost:8080/';
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private userService: AuthService) { }
 
@@ -18,15 +25,28 @@ export class ListeFormateurComponent implements OnInit {
     this.getFormateurs();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   getFormateurs(): void {
     this.userService.getAllUsers().subscribe((data: User[]) => {
-      // Filtrer les utilisateurs dont role = 'FORMATEUR' ou 1 selon ton backend
-      this.users = data.filter(u => u.role === 'FORMATEUR');
-      console.log(this.users);
+      this.dataSource.data = data.filter(u => u.role === 'FORMATEUR');
+      console.log(this.dataSource.data);
     });
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   getPdfUrl(user: User): string {
-    return this.baseCvUrl + user.cvPath; // Chemin complet vers le PDF
+    return this.baseCvUrl + user.cvPath;
   }
 }
