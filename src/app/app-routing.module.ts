@@ -13,6 +13,8 @@ import { CreateSessionFormationComponent } from 'src/components/session_formatio
 import { ListeSessionFormationByFormationIdComponent } from 'src/components/session_formation/liste-session-formation-by-formation-id/liste-session-formation-by-formation-id.component';
 import { SessionFormationListComponent } from 'src/components/session_formation/session-formation-list/session-formation-list.component';
 import { AssignFormateurComponent } from 'src/components/formation/assign-formateur/assign-formateur.component';
+import { ForgotPasswordComponent } from 'src/components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from 'src/components/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,7 +30,9 @@ const routes: Routes = [
   { path: 'sessions/:formationId', component: ListeSessionFormationByFormationIdComponent },
   { path: 'face-login', component: FaceLoginComponent },
   { path: 'liste-sessions', component: SessionFormationListComponent },
-  { path: 'liste-inscriptions-by-session-id/:sessionId', component: ListeInscriptionBySessionIdComponent }
+  { path: 'liste-inscriptions-by-session-id/:sessionId', component: ListeInscriptionBySessionIdComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent }
 
 ];
 @NgModule({

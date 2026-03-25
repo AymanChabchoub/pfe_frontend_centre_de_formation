@@ -22,6 +22,8 @@ import { AssignFormateurComponent } from 'src/components/formation/assign-format
 import { SessionFormationListComponent } from 'src/components/session_formation/session-formation-list/session-formation-list.component';
 import { ListeInscriptionBySessionIdComponent } from 'src/components/inscription/liste-inscription-by-session-id/liste-inscription-by-session-id.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { ForgotPasswordComponent } from 'src/components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from 'src/components/reset-password/reset-password.component';
 
 // Angular Material imports
 import { MatTableModule } from '@angular/material/table';
@@ -51,7 +53,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SessionFormationListComponent,
     ListeInscriptionBySessionIdComponent,
     ChatbotComponent,
-    AssignFormateurComponent
+    AssignFormateurComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
