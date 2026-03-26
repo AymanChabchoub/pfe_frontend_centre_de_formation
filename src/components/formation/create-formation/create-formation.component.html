@@ -43,8 +43,7 @@
 
               <!-- Description -->
               <div class="form-floating mb-3">
-                <textarea class="form-control" id="description" [(ngModel)]="description" name="description"
-                  placeholder="Description ..."></textarea>
+                <textarea class="form-control" id="description" [(ngModel)]="description" name="description"></textarea>
                 <label for="description">Description</label>
                 <div *ngIf="!description" class="text-danger">
                   La description est requise.
@@ -53,8 +52,7 @@
 
               <!-- Durée -->
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="dureeHeures" [(ngModel)]="dureeHeures" name="dureeHeures"
-                  placeholder="Durée (en heures)" />
+                <input type="number" class="form-control" id="dureeHeures" [(ngModel)]="dureeHeures" name="dureeHeures"/>
                 <label for="dureeHeures">Durée (en heures)</label>
                 <div *ngIf="!dureeHeures || dureeHeures <= 0" class="text-danger">
                   Durée est requise et doit être supérieure à 0.
@@ -63,8 +61,7 @@
 
               <!-- Prix -->
               <div class="form-floating mb-3">
-                <input type="number" class="form-control" id="prix" [(ngModel)]="prix" name="prix"
-                  placeholder="Prix de la formation" />
+                <input type="number" class="form-control" id="prix" [(ngModel)]="prix" name="prix"/>
                 <label for="prix">Prix</label>
                 <div *ngIf="!prix || prix < 0" class="text-danger">
                   Le prix est requis et doit être supérieur ou égal à 0.
