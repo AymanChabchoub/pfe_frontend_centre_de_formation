@@ -1,0 +1,74 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row h-100 align-items-center justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <a href="javascript:void(0)">
+                            <h3 class="text-primary"><i class="fa fa-percentage me-2"></i>Remise</h3>
+                        </a>
+                        <h3>Formations</h3>
+                    </div>
+
+                    <!-- Spinner -->
+                    <div *ngIf="isLoading" class="text-center mb-3">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div *ngIf="successMessage" class="alert alert-success">
+                        {{ successMessage }}
+                    </div>
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+
+                    <form (ngSubmit)="appliquerRemise()">
+
+                        <!-- Liste des Formations -->
+                        <div class="form-floating mb-4">
+                            <select class="form-select" id="formation" [(ngModel)]="selectedFormationId"
+                                name="selectedFormationId">
+                                <option value="" disabled selected>-- Sélectionnez une formation --</option>
+                                <option *ngFor="let f of formations" [ngValue]="f.id">{{ f.titre }} ({{ f.prix }} DT)</option>
+                            </select>
+                            <label for="formation">Formation</label>
+                        </div>
+
+                        <!-- Pourcentage -->
+                        <div class="form-floating mb-4">
+                            <input type="number" class="form-control" id="taux" [(ngModel)]="tauxRemise"
+                                name="tauxRemise" placeholder="20">
+                            <label for="taux">Pourcentage de remise (%)</label>
+                        </div>
+
+                        <!-- Date Expiration -->
+                        <div class="form-floating mb-4">
+                            <input type="date" class="form-control" id="date" [(ngModel)]="dateExpiration"
+                                name="dateExpiration" placeholder="Date">
+                            <label for="date">Date d'expiration</label>
+                        </div>
+
+                        <!-- Bouton Appliquer -->
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-3"
+                            [disabled]="!selectedFormationId || isLoading">
+                            <i class="fa fa-check me-2"></i>Appliquer la remise
+                        </button>
+
+                        <!-- Bouton Retour -->
+                        <button type="button" class="btn btn-outline-light py-2 w-100" (click)="goToListeFormation()">
+                            <i class="fa fa-arrow-left me-2"></i>Retour à la liste
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

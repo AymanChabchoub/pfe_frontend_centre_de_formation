@@ -96,8 +96,8 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit, Afte
         this.dataSource.data = res;
 
         this.dataSource.data.forEach(s => {
-          // Associer le prix de la formation
-          s.prix = s.formation?.prix || s.prix || 0;
+          // Associer le prix de la formation (avec remise si applicable)
+          s.prix = this.getPrixRemise(s.formation);
           if (s.formateurId) {
             this.authService.getUserById(s.formateurId).subscribe(user => {
               s.formateurNom = user.nom + ' ' + user.prenom;
@@ -117,6 +117,23 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit, Afte
       () => this.isLoading = false
     );
   }
+
+  isRemiseValide(formation: any): boolean {
+    if (!formation || !formation.tauxRemise || formation.tauxRemise <= 0) return false;
+    if (!formation.dateExpirationRemise) return true;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const expiration = new Date(formation.dateExpirationRemise);
+    return expiration >= today;
+  }
+
+  getPrixRemise(formation: any): number {
+    if (this.isRemiseValide(formation)) {
+      return formation.prix * (1 - formation.tauxRemise / 100);
+    }
+    return formation.prix || 0;
+  }
+
   getSessionById(sessionId: number): void {
     this.sessionService.getById(sessionId).subscribe({
       next: session => {
@@ -159,8 +176,8 @@ export class ListeSessionFormationByFormationIdComponent implements OnInit, Afte
       return;
     }
 
-    // Assigner le montant depuis la formation
-    const montant = this.formation?.prix || session.prix || 0;
+    // Assigner le montant depuis la formation (avec remise si applicable)
+    const montant = this.getPrixRemise(this.formation);
 
     // 1️⃣ vérifier si inscription existe
     this.inscriptionService.getBySession(session.id).subscribe(inscriptions => {

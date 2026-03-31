@@ -15,6 +15,7 @@ import { SessionFormationListComponent } from 'src/components/session_formation/
 import { AssignFormateurComponent } from 'src/components/formation/assign-formateur/assign-formateur.component';
 import { ForgotPasswordComponent } from 'src/components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from 'src/components/reset-password/reset-password.component';
+import { RemiseFormComponent } from 'src/components/formation/remise-form/remise-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: 'liste-sessions', component: SessionFormationListComponent },
   { path: 'liste-inscriptions-by-session-id/:sessionId', component: ListeInscriptionBySessionIdComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent }
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'gestion-remises', component: RemiseFormComponent }
 
 ];
 @NgModule({

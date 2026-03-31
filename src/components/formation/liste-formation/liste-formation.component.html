@@ -13,6 +13,9 @@
             <mat-label>Filtrer</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Titre ou description">
           </mat-form-field>
+          <button class="btn btn-warning btn-sm" (click)="goToGestionRemises()">
+            <i class="fa fa-percentage me-2"></i>Remises
+          </button>
           <button class="btn btn-primary btn-sm" (click)="goToAssignFormateur()">
             <i class="fa fa-user-plus me-2"></i>Assigner Formateur
           </button>
@@ -27,7 +30,7 @@
           <ng-container matColumnDef="index">
             <th mat-header-cell *matHeaderCellDef> # </th>
             <td mat-cell *matCellDef="let formation; let i = index">
-              {{ (paginator?.pageIndex || 0) * (paginator?.pageSize || 10) + i + 1 }}
+              {{ (paginator.pageIndex || 0) * (paginator.pageSize || 10) + i + 1 }}
             </td>
           </ng-container>
 
@@ -52,7 +55,17 @@
           <!-- Colonne Prix -->
           <ng-container matColumnDef="prix">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix </th>
-            <td mat-cell *matCellDef="let formation"> {{ formation.prix }} DT </td>
+            <td mat-cell *matCellDef="let formation">
+              <div *ngIf="isRemiseValide(formation); else noRemise">
+                <span class="text-decoration-line-through text-muted small">{{ formation.prix }} DT</span>
+                <br>
+                <span class="text-success fw-bold">{{ formation.prix * (1 - formation.tauxRemise / 100) | number:'1.2-2' }} DT</span>
+                <span class="badge bg-danger ms-1">-{{ formation.tauxRemise }}%</span>
+              </div>
+              <ng-template #noRemise>
+                {{ formation.prix }} DT
+              </ng-template>
+            </td>
           </ng-container>
 
           <!-- Colonne Formateur -->

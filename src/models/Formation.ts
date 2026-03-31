@@ -4,4 +4,7 @@ export interface Formation {
   description: string;
   dureeHeures: number;
   prix: number;
+  formateurId?: number;
+  tauxRemise?: number;
+  dateExpirationRemise?: string;
 }

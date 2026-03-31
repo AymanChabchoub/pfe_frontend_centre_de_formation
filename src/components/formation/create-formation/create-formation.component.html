@@ -33,8 +33,7 @@
 
               <!-- Titre Formation -->
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="titreFormation" [(ngModel)]="titre" name="titre"
-                  placeholder="Titre Formation ..." />
+                <input type="text" class="form-control" id="titreFormation" [(ngModel)]="titre" name="titre"/>
                 <label for="titreFormation">Titre</label>
                 <div *ngIf="!titre" class="text-danger">
                   Le titre est requis.

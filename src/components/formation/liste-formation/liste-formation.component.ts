@@ -98,4 +98,17 @@ export class ListeFormationComponent implements OnInit, AfterViewInit {
   goToAssignFormateur(): void {
     this.router.navigate(['/assign-formateur']);
   }
+
+  goToGestionRemises(): void {
+    this.router.navigate(['/gestion-remises']);
+  }
+
+  isRemiseValide(formation: any): boolean {
+    if (!formation.tauxRemise || formation.tauxRemise <= 0) return false;
+    if (!formation.dateExpirationRemise) return true;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const expiration = new Date(formation.dateExpirationRemise);
+    return expiration >= today;
+  }
 }
