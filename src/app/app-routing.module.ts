@@ -16,6 +16,9 @@ import { AssignFormateurComponent } from 'src/components/formation/assign-format
 import { ForgotPasswordComponent } from 'src/components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from 'src/components/reset-password/reset-password.component';
 import { RemiseFormComponent } from 'src/components/formation/remise-form/remise-form.component';
+import { ChargeFormComponent } from 'src/components/charges/charge-form/charge-form.component';
+import { ChargeListComponent } from 'src/components/charges/charge-list/charge-list.component';
+import { BilanFormationComponent } from 'src/components/charges/bilan-formation/bilan-formation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,7 +37,10 @@ const routes: Routes = [
   { path: 'liste-inscriptions-by-session-id/:sessionId', component: ListeInscriptionBySessionIdComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'gestion-remises', component: RemiseFormComponent }
+  { path: 'gestion-remises', component: RemiseFormComponent },
+  { path: 'charges', component: ChargeListComponent },
+  { path: 'charge-form', component: ChargeFormComponent },
+  { path: 'bilan-financier', component: BilanFormationComponent }
 
 ];
 @NgModule({

@@ -1,0 +1,90 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row h-100 align-items-center justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <a href="javascript:void(0)">
+                            <h3 class="text-primary"><i class="fa fa-money-bill me-2"></i>Charge</h3>
+                        </a>
+                        <h3>Session</h3>
+                    </div>
+
+                    <!-- Spinner -->
+                    <div *ngIf="isLoading" class="text-center mb-3">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div *ngIf="successMessage" class="alert alert-success">
+                        {{ successMessage }}
+                    </div>
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+
+                    <form (ngSubmit)="ajouterCharge()">
+
+                        <!-- Session -->
+                        <div class="form-floating mb-4">
+                            <select class="form-select" id="session" [(ngModel)]="selectedSessionId"
+                                name="selectedSessionId">
+                                <option value="" disabled selected>-- Sélectionnez une session --</option>
+                                <option *ngFor="let s of sessions" [ngValue]="s.id">{{ s.titre }}</option>
+                            </select>
+                            <label for="session">Session</label>
+                        </div>
+
+                        <!-- Type -->
+                        <div class="form-floating mb-4">
+                            <select class="form-select" id="type" [(ngModel)]="type" name="type">
+                                <option value="" disabled selected>-- Type de charge --</option>
+                                <option *ngFor="let t of typesCharge" [ngValue]="t">{{ t }}</option>
+                            </select>
+                            <label for="type">Type de charge</label>
+                        </div>
+
+                        <!-- Montant -->
+                        <div class="form-floating mb-4">
+                            <input type="number" class="form-control" id="montant" [(ngModel)]="montant"
+                                name="montant" placeholder="Montant">
+                            <label for="montant">Montant (DT)</label>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-floating mb-4">
+                            <input type="text" class="form-control" id="description" [(ngModel)]="description"
+                                name="description" placeholder="Description">
+                            <label for="description">Description</label>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-floating mb-4">
+                            <input type="date" class="form-control" id="dateCharge" [(ngModel)]="dateCharge"
+                                name="dateCharge" placeholder="Date">
+                            <label for="dateCharge">Date de la charge</label>
+                        </div>
+
+                        <!-- Bouton Ajouter -->
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-3"
+                            [disabled]="!selectedSessionId || !type || montant <= 0 || isLoading">
+                            <i class="fa fa-plus me-2"></i>Ajouter la charge
+                        </button>
+
+                        <!-- Bouton Liste -->
+                        <button type="button" class="btn btn-outline-light py-2 w-100" (click)="goToCharges()">
+                            <i class="fa fa-list me-2"></i>Voir la liste des charges
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

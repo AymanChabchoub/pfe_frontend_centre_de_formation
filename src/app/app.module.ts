@@ -33,6 +33,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RemiseFormComponent } from 'src/components/formation/remise-form/remise-form.component';
+import { ChargeFormComponent } from 'src/components/charges/charge-form/charge-form.component';
+import { ChargeListComponent } from 'src/components/charges/charge-list/charge-list.component';
+import { BilanFormationComponent } from 'src/components/charges/bilan-formation/bilan-formation.component';
 
 
 
@@ -57,7 +60,10 @@ import { RemiseFormComponent } from 'src/components/formation/remise-form/remise
     AssignFormateurComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    RemiseFormComponent
+    RemiseFormComponent,
+    ChargeFormComponent,
+    ChargeListComponent,
+    BilanFormationComponent
   ],
   imports: [
     BrowserModule,

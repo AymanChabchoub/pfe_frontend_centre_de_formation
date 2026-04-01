@@ -1,0 +1,124 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary rounded p-4">
+
+      <h6 class="mb-4">Bilan Financier par Formation</h6>
+
+      <!-- Sélection formation -->
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <select class="form-select" [(ngModel)]="selectedFormationId" name="formationId"
+            style="max-width: 350px;">
+          <option [ngValue]="null" disabled>-- Sélectionnez une formation --</option>
+          <option *ngFor="let f of formations" [ngValue]="f.id">{{ f.titre }}</option>
+        </select>
+        <button class="btn btn-primary" (click)="chargerBilan()" [disabled]="!selectedFormationId || isLoading">
+          <i class="fa fa-chart-bar me-2"></i>Afficher le bilan
+        </button>
+      </div>
+
+      <!-- Spinner -->
+      <div *ngIf="isLoading" class="text-center mb-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Erreur -->
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+      <!-- Résultat Bilan -->
+      <div *ngIf="bilan">
+
+        <!-- Titre formation -->
+        <h5 class="mb-3">{{ bilan.formationTitre }}</h5>
+
+        <!-- Cards résumé -->
+        <div class="row g-4 mb-4">
+          <!-- Total Revenus -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="rounded d-flex align-items-center justify-content-between p-4"
+                style="background: rgba(40, 167, 69, 0.15); border-left: 4px solid #28a745;">
+              <div>
+                <p class="mb-2" style="color: #adb5bd;">Total Revenus</p>
+                <h4 class="mb-0" style="color: #28a745;">{{ bilan.totalRevenus | number:'1.2-2' }} DT</h4>
+              </div>
+              <i class="fa fa-arrow-up fa-2x" style="color: #28a745;"></i>
+            </div>
+          </div>
+
+          <!-- Total Charges -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="rounded d-flex align-items-center justify-content-between p-4"
+                style="background: rgba(220, 53, 69, 0.15); border-left: 4px solid #dc3545;">
+              <div>
+                <p class="mb-2" style="color: #adb5bd;">Total Charges</p>
+                <h4 class="mb-0" style="color: #dc3545;">{{ bilan.totalCharges | number:'1.2-2' }} DT</h4>
+              </div>
+              <i class="fa fa-arrow-down fa-2x" style="color: #dc3545;"></i>
+            </div>
+          </div>
+
+          <!-- Bénéfice / Perte -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="rounded d-flex align-items-center justify-content-between p-4"
+                [style.background]="bilan.benefice >= 0 ? 'rgba(40, 167, 69, 0.15)' : 'rgba(220, 53, 69, 0.15)'"
+                [style.borderLeft]="bilan.benefice >= 0 ? '4px solid #28a745' : '4px solid #dc3545'">
+              <div>
+                <p class="mb-2" style="color: #adb5bd;">{{ bilan.benefice >= 0 ? 'Bénéfice' : 'Perte' }}</p>
+                <h4 class="mb-0" [style.color]="bilan.benefice >= 0 ? '#28a745' : '#dc3545'">
+                  {{ bilan.benefice | number:'1.2-2' }} DT
+                </h4>
+              </div>
+              <i class="fa fa-2x" [ngClass]="bilan.benefice >= 0 ? 'fa-smile' : 'fa-frown'"
+                [style.color]="bilan.benefice >= 0 ? '#28a745' : '#dc3545'"></i>
+            </div>
+          </div>
+
+          <!-- Inscrits Payés -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="rounded d-flex align-items-center justify-content-between p-4"
+                style="background: rgba(0, 123, 255, 0.15); border-left: 4px solid #007bff;">
+              <div>
+                <p class="mb-2" style="color: #adb5bd;">Inscrits Payés</p>
+                <h4 class="mb-0" style="color: #007bff;">{{ bilan.nombreInscritsPayes }}</h4>
+              </div>
+              <i class="fa fa-users fa-2x" style="color: #007bff;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Détail par session -->
+        <h6 class="mb-3">Détail par session</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr class="text-center" style="background: rgba(0,0,0,0.2);">
+                <th>Session</th>
+                <th>Revenus</th>
+                <th>Charges</th>
+                <th>Bénéfice/Perte</th>
+                <th>Inscrits payés</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of bilan.detailSessions" class="text-center">
+                <td>{{ s.sessionTitre }}</td>
+                <td class="text-success">{{ s.revenus | number:'1.2-2' }} DT</td>
+                <td class="text-danger">{{ s.charges | number:'1.2-2' }} DT</td>
+                <td [class]="s.benefice >= 0 ? 'text-success fw-bold' : 'text-danger fw-bold'">
+                  {{ s.benefice | number:'1.2-2' }} DT
+                </td>
+                <td>{{ s.inscritsPayes }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

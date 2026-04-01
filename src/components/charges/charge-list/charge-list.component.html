@@ -1,0 +1,116 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+
+      <!-- En-tête -->
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Charges</h6>
+        <div class="d-flex align-items-center gap-3">
+          <!-- Filtre par session -->
+          <select class="form-select form-select-sm" [(ngModel)]="filterSessionId" name="filterSession"
+              (change)="filtrerParSession()" style="max-width: 220px;">
+            <option [ngValue]="null">Toutes les sessions</option>
+            <option *ngFor="let s of sessions" [ngValue]="s.id">{{ s.titre }}</option>
+          </select>
+          <mat-form-field>
+            <mat-label>Filtrer</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Salle, Formateur...">
+          </mat-form-field>
+          <button class="btn btn-primary btn-sm" (click)="goToChargeForm()">
+            <i class="fa fa-plus me-2"></i>Ajouter
+          </button>
+          <button class="btn btn-success btn-sm" (click)="goToBilan()">
+            <i class="fa fa-chart-bar me-2"></i>Bilan
+          </button>
+        </div>
+      </div>
+
+      <!-- Tableau -->
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table">
+
+          <!-- Index -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let charge; let i = index">
+              {{ (paginator.pageIndex || 0) * (paginator.pageSize || 10) + i + 1 }}
+            </td>
+          </ng-container>
+
+          <!-- Session -->
+          <ng-container matColumnDef="session">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Session </th>
+            <td mat-cell *matCellDef="let charge"> {{ charge.sessionFormation?.titre || '—' }} </td>
+          </ng-container>
+
+          <!-- Type -->
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let charge">
+              <span class="badge"
+                [ngClass]="{
+                  'bg-info': charge.type === 'Salle',
+                  'bg-warning': charge.type === 'Formateur',
+                  'bg-secondary': charge.type === 'Logistique',
+                  'bg-dark': charge.type === 'Matériel',
+                  'bg-primary': charge.type === 'Autre'
+                }">{{ charge.type }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Description -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+            <td mat-cell *matCellDef="let charge"> {{ charge.description || '—' }} </td>
+          </ng-container>
+
+          <!-- Montant -->
+          <ng-container matColumnDef="montant">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
+            <td mat-cell *matCellDef="let charge">
+              <span class="text-danger fw-bold">{{ charge.montant | number:'1.2-2' }} DT</span>
+            </td>
+          </ng-container>
+
+          <!-- Date -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+            <td mat-cell *matCellDef="let charge"> {{ charge.dateCharge }} </td>
+          </ng-container>
+
+          <!-- Action -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let charge">
+              <button class="btn btn-sm btn-danger" (click)="deleteCharge(charge.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length" class="text-center text-muted">
+              Aucune charge trouvée
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Chargement -->
+      <div *ngIf="isLoading" class="text-center text-info mt-3">
+        Chargement des charges...
+      </div>
+
+      <!-- Pagination -->
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" aria-label="Sélectionner la page" showFirstLastButtons>
+      </mat-paginator>
+
+    </div>
+  </div>
+</div>
