@@ -18,7 +18,13 @@
 
       <li *ngFor="let msg of messages" class="chat" [ngClass]="msg.type">
         <span *ngIf="msg.type === 'incoming'" class="material-symbols-outlined">smart_toy</span>
-        <p [class.error]="msg.isError">{{ msg.text }}</p>
+        <div>
+          <p [class.error]="msg.isError">{{ msg.text }}</p>
+          <button *ngIf="msg.route" class="chatbot-nav-btn" (click)="navigateTo(msg.route)">
+            <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">open_in_new</span>
+            Aller à la page
+          </button>
+        </div>
       </li>
 
       <li *ngIf="isLoading" class="chat incoming">

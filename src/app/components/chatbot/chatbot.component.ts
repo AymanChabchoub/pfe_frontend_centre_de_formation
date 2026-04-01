@@ -1,10 +1,12 @@
 import { Component, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChatbotService } from 'src/app/services/chatbot.service';
 
 interface ChatMessage {
     text: string;
     type: 'incoming' | 'outgoing';
     isError?: boolean;
+    route?: string;
 }
 
 @Component({
@@ -20,7 +22,10 @@ export class ChatbotComponent implements AfterViewChecked {
 
     @ViewChild('chatbox') private chatboxRef!: ElementRef;
 
-    constructor(private chatbotService: ChatbotService) { }
+    constructor(
+        private chatbotService: ChatbotService,
+        private router: Router
+    ) { }
 
     ngAfterViewChecked() {
         this.scrollToBottom();
@@ -37,7 +42,7 @@ export class ChatbotComponent implements AfterViewChecked {
     }
 
     handleEnter(event: Event) {
-        event.preventDefault(); // Prevents newline
+        event.preventDefault();
         this.sendMessage();
     }
 
@@ -45,15 +50,14 @@ export class ChatbotComponent implements AfterViewChecked {
         const text = this.userMessage.trim();
         if (!text) return;
 
-        // Add user message
         this.messages.push({ text: text, type: 'outgoing' });
         this.userMessage = '';
         this.isLoading = true;
 
-        // Call service
         this.chatbotService.sendMessage(text).subscribe({
             next: (response) => {
-                this.messages.push({ text: response.response, type: 'incoming' });
+                const parsed = this.parseResponse(response.response);
+                this.messages.push(parsed);
                 this.isLoading = false;
             },
             error: (error) => {
@@ -66,5 +70,23 @@ export class ChatbotComponent implements AfterViewChecked {
                 this.isLoading = false;
             }
         });
+    }
+
+    parseResponse(rawText: string): ChatMessage {
+        const routeRegex = /\[ROUTE:(\/[^\]]+)\]/;
+        const match = rawText.match(routeRegex);
+
+        const cleanText = rawText.replace(routeRegex, '').trim();
+
+        return {
+            text: cleanText,
+            type: 'incoming',
+            route: match ? match[1] : undefined
+        };
+    }
+
+    navigateTo(route: string): void {
+        this.router.navigate([route]);
+        this.showChat = false;
     }
 }
