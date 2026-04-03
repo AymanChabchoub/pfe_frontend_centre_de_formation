@@ -25,6 +25,11 @@ export class SalleService {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
+  // -------- UPDATE --------
+  update(id: number, salle: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}`, salle);
+  }
+
   // -------- DELETE --------
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);

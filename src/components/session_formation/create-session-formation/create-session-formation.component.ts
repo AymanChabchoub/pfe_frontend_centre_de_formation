@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/services/auth/auth.service';
 import { FormationService } from 'src/services/formation/formation.service';
 import { SalleService } from 'src/services/salle/salle.service';
@@ -9,7 +10,7 @@ import { SessionFormationService } from 'src/services/session_formation/sessionf
   templateUrl: './create-session-formation.component.html',
   styleUrls: ['./create-session-formation.component.css']
 })
-export class CreateSessionFormationComponent {
+export class CreateSessionFormationComponent implements OnInit {
   // Champs session
   titre: string = '';
   description: string = '';
@@ -27,6 +28,9 @@ export class CreateSessionFormationComponent {
   successMessage = '';
   errorMessage = '';
 
+  isEditMode = false;
+  sessionId!: number;
+
   // Listes déroulantes
   specialites: string[] = [];
   formateurs: any[] = [];
@@ -37,12 +41,62 @@ export class CreateSessionFormationComponent {
     private authService: AuthService,
     private formationService: FormationService,
     private sessionService: SessionFormationService,
-    private salleService: SalleService
+    private salleService: SalleService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.loadSpecialites();
     this.loadSalles();
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.isEditMode = true;
+        this.sessionId = +id;
+        this.loadSession(this.sessionId);
+      }
+    });
+  }
+
+  loadSession(id: number): void {
+    this.isLoading = true;
+    this.sessionService.getById(id).subscribe(
+      res => {
+        this.titre = res.titre;
+        this.description = res.description;
+        this.dateDebut = res.dateDebut;
+        this.dateFin = res.dateFin;
+        this.heureDebut = res.heureDebut;
+        this.heureFin = res.heureFin;
+        this.salleId = res.salleId;
+
+        // Restore cascaded select boxes
+        if (res.formateurId) {
+          this.authService.getUserById(res.formateurId).subscribe(user => {
+            this.selectedSpecialite = user.specialite;
+            this.authService.getFormateursBySpecialite(this.selectedSpecialite).subscribe(formateurs => {
+              this.formateurs = formateurs;
+              this.formateurId = res.formateurId;
+
+              this.formationService.getByFormateurId(this.formateurId).subscribe(formations => {
+                this.formations = formations;
+                this.formationId = res.formationId;
+                this.isLoading = false;
+              });
+            });
+          });
+        } else {
+          this.isLoading = false;
+        }
+      },
+      err => {
+        console.error('Erreur chargement session', err);
+        this.errorMessage = 'Impossible de charger les données de la session.';
+        this.isLoading = false;
+      }
+    );
   }
 
   // 🔹 Charger toutes les spécialités (unique)
@@ -115,19 +169,37 @@ export class CreateSessionFormationComponent {
     };
 
     this.isLoading = true;
-    this.sessionService.create(session).subscribe(
-      res => {
-        this.successMessage = 'Session créée avec succès';
-        this.errorMessage = '';
-        this.isLoading = false;
-        this.resetForm();
-      },
-      err => {
-        this.errorMessage = 'Erreur lors de la création';
-        this.successMessage = '';
-        this.isLoading = false;
-      }
-    );
+
+    if (this.isEditMode) {
+      this.sessionService.update(this.sessionId, session).subscribe({
+        next: () => {
+          this.successMessage = 'Session modifiée avec succès ✅';
+          this.errorMessage = '';
+          this.isLoading = false;
+          setTimeout(() => this.router.navigate(['/liste-sessions']), 1500);
+        },
+        error: err => {
+          this.errorMessage = 'Erreur lors de la modification ❌';
+          this.successMessage = '';
+          this.isLoading = false;
+          console.error(err);
+        }
+      });
+    } else {
+      this.sessionService.create(session).subscribe(
+        res => {
+          this.successMessage = 'Session créée avec succès';
+          this.errorMessage = '';
+          this.isLoading = false;
+          this.resetForm();
+        },
+        err => {
+          this.errorMessage = 'Erreur lors de la création';
+          this.successMessage = '';
+          this.isLoading = false;
+        }
+      );
+    }
   }
 
   resetForm(): void {

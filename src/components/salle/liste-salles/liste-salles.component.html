@@ -1,0 +1,83 @@
+<app-left-nav></app-left-nav>
+<app-up-nav></app-up-nav>
+
+<div class="content">
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Liste des Salles</h6>
+        <div class="d-flex align-items-center gap-3">
+          <mat-form-field>
+            <mat-label>Filtrer</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. A1...">
+          </mat-form-field>
+          <button class="btn btn-primary btn-sm" (click)="goToCreate()">
+            <i class="fa fa-plus me-2"></i>Ajouter une Salle
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table text-white">
+          
+          <!-- Index -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              {{ (paginator.pageIndex || 0) * (paginator.pageSize || 10) + i + 1 }}
+            </td>
+          </ng-container>
+
+          <!-- Nom -->
+          <ng-container matColumnDef="nom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+            <td mat-cell *matCellDef="let element"> {{ element.nom }} </td>
+          </ng-container>
+
+          <!-- Capacité -->
+          <ng-container matColumnDef="capacite">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacité </th>
+            <td mat-cell *matCellDef="let element"> {{ element.capacite }} places </td>
+          </ng-container>
+
+          <!-- Adresse -->
+          <ng-container matColumnDef="adresse">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </th>
+            <td mat-cell *matCellDef="let element"> {{ element.adresse || '—' }} </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element">
+              <button class="btn btn-sm btn-info me-2 text-white" (click)="onUpdate(element.id)">
+                <i class="fa fa-pen"></i> Modifier
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(element.id)">
+                <i class="fa fa-trash"></i> Supprimer
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+              Aucune salle trouvée
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Chargement -->
+      <div *ngIf="isLoading" class="text-center text-info mt-3">
+        Chargement des salles...
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+
+    </div>
+  </div>
+</div>

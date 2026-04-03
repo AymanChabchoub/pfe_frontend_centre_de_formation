@@ -16,7 +16,7 @@ export class SessionFormationListComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['index', 'titre', 'description', 'dateDebut', 'dateFin',
     'heureDebut', 'heureFin', 'salle', 'formateur',
-    'inscriptionCount', 'action'];
+    'inscriptionCount', 'listeInscriptions', 'action'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   formationId!: number;
   loading = false;
@@ -117,6 +117,21 @@ export class SessionFormationListComponent implements OnInit, AfterViewInit {
 
   goToInscriptions(sessionId: number): void {
     this.router.navigate(['/liste-inscriptions-by-session-id', sessionId]);
+  }
+
+  updateSession(id: number): void {
+    this.router.navigate(['/update-session', id]);
+  }
+
+  deleteSession(id: number): void {
+    if (confirm('Voulez-vous supprimer cette session ?')) {
+      this.sessionService.delete(id).subscribe({
+        next: () => {
+          this.dataSource.data = this.dataSource.data.filter(s => s.id !== id);
+        },
+        error: err => console.error('Erreur de suppression', err)
+      });
+    }
   }
 
 }

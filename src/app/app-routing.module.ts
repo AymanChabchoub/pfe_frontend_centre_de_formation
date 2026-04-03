@@ -19,6 +19,7 @@ import { RemiseFormComponent } from 'src/components/formation/remise-form/remise
 import { ChargeFormComponent } from 'src/components/charges/charge-form/charge-form.component';
 import { ChargeListComponent } from 'src/components/charges/charge-list/charge-list.component';
 import { BilanFormationComponent } from 'src/components/charges/bilan-formation/bilan-formation.component';
+import { ListeSallesComponent } from 'src/components/salle/liste-salles/liste-salles.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -40,7 +41,11 @@ const routes: Routes = [
   { path: 'gestion-remises', component: RemiseFormComponent },
   { path: 'charges', component: ChargeListComponent },
   { path: 'charge-form', component: ChargeFormComponent },
-  { path: 'bilan-financier', component: BilanFormationComponent }
+  { path: 'bilan-financier', component: BilanFormationComponent },
+  { path: 'update-formation/:id', component: CreateFormationComponent },
+  { path: 'update-session/:id', component: CreateSessionFormationComponent },
+  { path: 'liste-salles', component: ListeSallesComponent },
+  { path: 'update-salle/:id', component: CreateSalleComponent }
 
 ];
 @NgModule({

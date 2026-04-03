@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 })
 export class ListeFormationComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['index', 'titre', 'description', 'dureeHeures', 'prix', 'formateur', 'sessions'];
+  displayedColumns: string[] = ['index', 'titre', 'description', 'dureeHeures', 'prix', 'formateur', 'sessions', 'action'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
   isLoading = false;
 
@@ -89,6 +89,10 @@ export class ListeFormationComponent implements OnInit, AfterViewInit {
         console.error('Erreur suppression formation', err);
       }
     );
+  }
+
+  updateFormation(id: number): void {
+    this.router.navigate(['/update-formation', id]);
   }
 
   goToSessions(formationId: number): void {

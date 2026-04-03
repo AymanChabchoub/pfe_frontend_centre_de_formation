@@ -36,6 +36,7 @@ import { RemiseFormComponent } from 'src/components/formation/remise-form/remise
 import { ChargeFormComponent } from 'src/components/charges/charge-form/charge-form.component';
 import { ChargeListComponent } from 'src/components/charges/charge-list/charge-list.component';
 import { BilanFormationComponent } from 'src/components/charges/bilan-formation/bilan-formation.component';
+import { ListeSallesComponent } from 'src/components/salle/liste-salles/liste-salles.component';
 
 
 
@@ -63,7 +64,8 @@ import { BilanFormationComponent } from 'src/components/charges/bilan-formation/
     RemiseFormComponent,
     ChargeFormComponent,
     ChargeListComponent,
-    BilanFormationComponent
+    BilanFormationComponent,
+    ListeSallesComponent
   ],
   imports: [
     BrowserModule,

@@ -18,7 +18,7 @@
 
           <div class="d-flex align-items-center justify-content-between mb-3">
             <h3 class="text-primary">
-              <i class="fa fa-building me-2"></i>Ajouter une Salle
+              <i class="fa fa-building me-2"></i>{{ isEditMode ? 'Modifier la Salle' : 'Ajouter une Salle' }}
             </h3>
           </div>
 
@@ -86,7 +86,7 @@
               type="submit"
               class="btn btn-primary py-3 w-100 mb-4"
               [disabled]="salleForm.invalid || isLoading"
-              value="Créer">
+              [value]="isEditMode ? 'Modifier' : 'Créer'">
 
           </form>
 

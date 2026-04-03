@@ -12,7 +12,7 @@
         <div class="col-md-6">
           <div class="bg-secondary rounded p-4">
 
-            <h3 class="text-center mb-4">Ajouter une session de formation</h3>
+            <h3 class="text-center mb-4">{{ isEditMode ? 'Modifier la session' : 'Ajouter une session de formation' }}</h3>
 
             <!-- Messages -->
             <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
@@ -22,43 +22,43 @@
 
               <!-- Titre -->
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" [(ngModel)]="titre" name="titre">
+                <input type="text" class="form-control" [(ngModel)]="titre" name="titre" required>
                 <label>Titre de la session</label>
               </div>
 
               <!-- Description -->
               <div class="form-floating mb-3">
-                <textarea class="form-control" [(ngModel)]="description" name="description"></textarea>
+                <textarea class="form-control" [(ngModel)]="description" name="description" required></textarea>
                 <label>Description</label>
               </div>
 
               <!-- Date début -->
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" [(ngModel)]="dateDebut" name="dateDebut">
+                <input type="date" class="form-control" [(ngModel)]="dateDebut" name="dateDebut" required>
                 <label>Date début</label>
               </div>
 
               <!-- Date fin -->
               <div class="form-floating mb-3">
-                <input type="date" class="form-control" [(ngModel)]="dateFin" name="dateFin">
+                <input type="date" class="form-control" [(ngModel)]="dateFin" name="dateFin" required>
                 <label>Date fin</label>
               </div>
 
               <!-- Heure début -->
               <div class="form-floating mb-3">
-                <input type="time" class="form-control" [(ngModel)]="heureDebut" name="heureDebut">
+                <input type="time" class="form-control" [(ngModel)]="heureDebut" name="heureDebut" required>
                 <label>Heure début</label>
               </div>
 
               <!-- Heure fin -->
               <div class="form-floating mb-3">
-                <input type="time" class="form-control" [(ngModel)]="heureFin" name="heureFin">
+                <input type="time" class="form-control" [(ngModel)]="heureFin" name="heureFin" required>
                 <label>Heure fin</label>
               </div>
 
               <!-- Spécialité -->
               <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="selectedSpecialite" name="specialite" (change)="onSpecialiteChange()">
+                <select class="form-select" [(ngModel)]="selectedSpecialite" name="specialite" (change)="onSpecialiteChange()" required>
                   <option value="" disabled selected>Choisir une spécialité</option>
                   <option *ngFor="let s of specialites" [value]="s">{{ s }}</option>
                 </select>
@@ -67,7 +67,7 @@
 
               <!-- Formateur -->
               <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="formateurId" name="formateurId" (change)="onFormateurChange()">
+                <select class="form-select" [(ngModel)]="formateurId" name="formateurId" (change)="onFormateurChange()" required>
                   <option value="" disabled selected>Choisir un formateur</option>
                   <option *ngFor="let f of formateurs" [value]="f.id">{{ f.nom }} {{ f.prenom }}</option>
                 </select>
@@ -76,7 +76,7 @@
 
               <!-- Formation -->
               <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="formationId" name="formationId">
+                <select class="form-select" [(ngModel)]="formationId" name="formationId" required>
                   <option value="" disabled selected>Choisir une formation</option>
                   <option *ngFor="let f of formations" [value]="f.id">{{ f.titre }}</option>
                 </select>
@@ -85,15 +85,16 @@
 
               <!-- Salle -->
               <div class="form-floating mb-3">
-                <select class="form-select" [(ngModel)]="salleId" name="salleId">
+                <select class="form-select" [(ngModel)]="salleId" name="salleId" required>
                   <option value="" disabled selected>Choisir une salle</option>
-                  <option *ngFor="let s of salles" [value]="s.id">nom:{{ s.nom }} ,Adresse: {{s.adresse}}</option>
+                  <option *ngFor="let s of salles" [value]="s.id">Nom: {{ s.nom }}, Adresse: {{s.adresse}}</option>
                 </select>
                 <label>Salle</label>
               </div>
 
-              <button class="btn btn-primary w-100" type="submit">
-                Créer la session
+              <button class="btn btn-primary w-100" type="submit" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                {{ isEditMode ? 'Modifier' : 'Créer la session' }}
               </button>
 
             </form>
